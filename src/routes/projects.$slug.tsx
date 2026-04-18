@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, ExternalLink, Github } from "lucide-react";
+import { Starfield } from "@/components/Starfield";
 import projectChatbot from "@/assets/project-chatbot.jpg";
 import projectAutovista from "@/assets/project-autovista.jpg";
 import projectFire from "@/assets/firefighter.jpg";
@@ -7,6 +8,7 @@ import projectRov from "@/assets/rov.jpg";
 
 type Project = {
   slug: string;
+  code: string;
   title: string;
   tag: string;
   year: string;
@@ -21,6 +23,7 @@ type Project = {
 const PROJECTS: Record<string, Project> = {
   "travel-bot": {
     slug: "travel-bot",
+    code: "LOG.001",
     title: "AI Travel Booking Assistant",
     tag: "Gen-AI · Conversational AI",
     year: "2024",
@@ -39,6 +42,7 @@ const PROJECTS: Record<string, Project> = {
   },
   maru: {
     slug: "maru",
+    code: "LOG.002",
     title: "AutoVista — Full-Stack Car Marketplace",
     tag: "Web Dev · MERN",
     year: "2023",
@@ -61,6 +65,7 @@ const PROJECTS: Record<string, Project> = {
   },
   critter: {
     slug: "critter",
+    code: "LOG.003",
     title: "Autonomous Remote Operated Vehicle",
     tag: "Robotics · Embedded",
     year: "2024",
@@ -79,6 +84,7 @@ const PROJECTS: Record<string, Project> = {
   },
   web: {
     slug: "web",
+    code: "LOG.004",
     title: "Fire Fighting Robot",
     tag: "Robotics · Embedded",
     year: "2023",
@@ -105,8 +111,8 @@ export const Route = createFileRoute("/projects/$slug")({
   },
   head: ({ loaderData }) => {
     const p = loaderData?.project;
-    if (!p) return { meta: [{ title: "Project — Sai Sasir K" }] };
-    const title = `${p.title} — Sai Sasir K`;
+    if (!p) return { meta: [{ title: "Mission Log — Sai Sasir K" }] };
+    const title = `${p.code} · ${p.title} — Sai Sasir K`;
     return {
       meta: [
         { title },
@@ -122,15 +128,15 @@ export const Route = createFileRoute("/projects/$slug")({
   notFoundComponent: () => (
     <div className="min-h-screen flex items-center justify-center px-6">
       <div className="text-center">
-        <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary mb-4">
-          404
+        <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-stellar mb-4">
+          ⏵ SIGNAL LOST · 404
         </p>
-        <h1 className="text-3xl font-bold mb-2">Project not found</h1>
+        <h1 className="text-3xl font-bold mb-2">Mission log not found</h1>
         <Link
           to="/"
-          className="inline-flex items-center gap-2 mt-6 text-primary hover:underline"
+          className="inline-flex items-center gap-2 mt-6 font-mono text-xs uppercase tracking-[0.2em] text-stellar hover:underline"
         >
-          <ArrowLeft className="w-4 h-4" /> Back home
+          <ArrowLeft className="w-4 h-4" /> Return to base
         </Link>
       </div>
     </div>
@@ -142,19 +148,30 @@ function ProjectPage() {
   const { project } = Route.useLoaderData() as { project: Project };
 
   return (
-    <article className="pt-32 pb-20">
-      <div className="max-w-4xl mx-auto px-6 lg:px-10">
+    <article className="relative pt-32 pb-20 overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none opacity-60">
+        <Starfield density={100} />
+        <div className="absolute inset-0 grid-mission opacity-30" />
+      </div>
+
+      <div className="relative max-w-4xl mx-auto px-6 lg:px-10">
         <Link
           to="/"
-          className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-10"
+          className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground hover:text-stellar transition-colors mb-12"
         >
-          <ArrowLeft className="w-4 h-4" /> All projects
+          <ArrowLeft className="w-3.5 h-3.5" /> All Mission Logs
         </Link>
 
-        <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary mb-4">
-          {project.tag} · {project.year}
-        </p>
-        <h1 className="text-4xl md:text-6xl font-bold tracking-tight leading-[1.05]">
+        <div className="flex items-center gap-3 mb-6">
+          <span className="font-mono text-[10px] tracking-[0.25em] text-stellar bg-stellar/10 border border-stellar/30 px-2 py-1">
+            ⏵ {project.code}
+          </span>
+          <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+            {project.tag} · {project.year}
+          </span>
+        </div>
+
+        <h1 className="text-4xl md:text-6xl font-bold tracking-tight leading-[1.05] text-glow-soft">
           {project.title}
         </h1>
         <p className="mt-6 text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl">
@@ -169,12 +186,12 @@ function ProjectPage() {
                 href={l.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-border-bright px-5 py-2.5 text-sm font-medium hover:bg-surface transition-all"
+                className="hud-corners inline-flex items-center gap-2 px-5 py-2.5 text-xs font-mono uppercase tracking-[0.2em] border border-stellar/30 hover:border-stellar hover:bg-stellar/5 transition-all"
               >
                 {l.icon === "github" ? (
-                  <Github className="w-4 h-4" />
+                  <Github className="w-3.5 h-3.5" />
                 ) : (
-                  <ExternalLink className="w-4 h-4" />
+                  <ExternalLink className="w-3.5 h-3.5" />
                 )}
                 {l.label}
               </a>
@@ -182,28 +199,42 @@ function ProjectPage() {
           </div>
         )}
 
-        <div className="mt-12 rounded-2xl overflow-hidden border border-border bg-muted">
+        <div className="mt-14 border border-stellar/20 bg-deep overflow-hidden relative">
           <img
             src={project.image}
             alt={project.title}
-            className="w-full h-auto object-cover"
+            className="w-full h-auto object-cover opacity-90"
           />
+          <div className="absolute inset-0 scanlines opacity-15 pointer-events-none" />
+          <div className="absolute top-3 left-3 right-3 flex justify-between font-mono text-[9px] uppercase tracking-[0.25em] text-stellar/70">
+            <span>⏵ ARCHIVE · {project.code}</span>
+            <span>{project.year}</span>
+          </div>
         </div>
 
         <div className="grid lg:grid-cols-3 gap-10 mt-16">
-          <div className="lg:col-span-2 space-y-10">
+          <div className="lg:col-span-2 space-y-12">
             <div>
-              <h2 className="text-2xl font-semibold mb-4">Overview</h2>
-              <p className="text-muted-foreground leading-relaxed">
+              <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-stellar mb-4">
+                ⏵ Mission Brief
+              </div>
+              <p className="text-muted-foreground leading-relaxed text-base">
                 {project.overview}
               </p>
             </div>
             <div>
-              <h2 className="text-2xl font-semibold mb-4">Highlights</h2>
+              <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-stellar mb-4">
+                ⏵ Operational Highlights
+              </div>
               <ul className="space-y-3">
-                {project.highlights.map((h) => (
-                  <li key={h} className="flex gap-3 text-muted-foreground">
-                    <span className="text-primary mt-2 w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
+                {project.highlights.map((h, i) => (
+                  <li
+                    key={h}
+                    className="flex gap-4 text-muted-foreground border-l border-stellar/30 pl-5 py-1"
+                  >
+                    <span className="font-mono text-[10px] text-stellar/60 mt-1 flex-shrink-0">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
                     <span className="leading-relaxed">{h}</span>
                   </li>
                 ))}
@@ -212,15 +243,15 @@ function ProjectPage() {
           </div>
 
           <aside className="space-y-4">
-            <div className="rounded-2xl border border-border bg-surface p-5">
-              <h3 className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground mb-4">
-                Stack
-              </h3>
-              <div className="flex flex-wrap gap-2">
+            <div className="border border-border bg-background/60 p-5">
+              <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-stellar mb-4 pb-3 border-b border-border">
+                Onboard Systems
+              </div>
+              <div className="flex flex-wrap gap-1.5">
                 {project.stack.map((s) => (
                   <span
                     key={s}
-                    className="font-mono text-[11px] px-2.5 py-1 rounded-md border border-border text-foreground/90"
+                    className="font-mono text-[10px] uppercase tracking-wider px-2 py-1 border border-border text-foreground/90"
                   >
                     {s}
                   </span>
@@ -230,18 +261,18 @@ function ProjectPage() {
           </aside>
         </div>
 
-        <div className="mt-20 pt-10 border-t border-border flex items-center justify-between">
+        <div className="mt-20 pt-10 border-t border-border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <Link
             to="/"
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+            className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground hover:text-stellar transition-colors"
           >
-            <ArrowLeft className="w-4 h-4" /> Back to all projects
+            <ArrowLeft className="w-3.5 h-3.5" /> Return to base
           </Link>
           <a
             href="/#contact"
-            className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground hover:opacity-90 transition-all"
+            className="inline-flex items-center gap-2 bg-stellar px-5 py-2.5 text-xs font-mono uppercase tracking-[0.2em] text-background hover:bg-primary transition-all"
           >
-            Get in touch
+            Open Comms
           </a>
         </div>
       </div>
