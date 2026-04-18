@@ -9,12 +9,14 @@ import {
   Github,
   Linkedin,
   Mail,
-  MapPin,
   GraduationCap,
   Award,
+  Radio,
 } from "lucide-react";
 import { Section } from "@/components/Section";
-import heroBg from "@/assets/hero-bg.jpg";
+import { Starfield } from "@/components/Starfield";
+import spaceHero from "@/assets/space-hero.jpg";
+import blackhole from "@/assets/blackhole.jpg";
 import projectChatbot from "@/assets/project-chatbot.jpg";
 import projectAutovista from "@/assets/project-autovista.jpg";
 import projectFire from "@/assets/firefighter.jpg";
@@ -27,24 +29,28 @@ export const Route = createFileRoute("/")({
 const expertise = [
   {
     icon: Brain,
+    code: "GEN-AI",
     title: "Generative AI & LLMs",
     desc: "Fine-tuning foundation models, building RAG pipelines, prompt engineering, and deploying multi-modal AI systems at scale.",
     tags: ["LLaMA", "GPT-4", "Claude API", "RAG", "LoRA / PEFT"],
   },
   {
     icon: Cpu,
+    code: "ML-ENG",
     title: "ML Engineering",
     desc: "End-to-end ML pipelines — from data ingestion and model training to production serving, monitoring, and continuous retraining.",
     tags: ["PyTorch", "TensorFlow", "MLflow", "W&B", "CUDA"],
   },
   {
     icon: Bot,
+    code: "AGENTS",
     title: "AI Agents & Systems",
     desc: "Designing autonomous agent architectures, multi-agent workflows, tool-integrated pipelines, and agentic reasoning systems.",
     tags: ["LangChain", "LlamaIndex", "AutoGen", "CrewAI", "Tool Use"],
   },
   {
     icon: Cog,
+    code: "ROBO",
     title: "Robotics & Embodied AI",
     desc: "Intelligent robotic systems that perceive, reason, and act — bridging physical and digital intelligence through sensor fusion and CV.",
     tags: ["ROS", "OpenCV", "SLAM", "Computer Vision", "Sensor Fusion"],
@@ -54,6 +60,7 @@ const expertise = [
 const projects = [
   {
     slug: "travel-bot",
+    code: "LOG.001",
     title: "AI Travel Booking Assistant",
     desc: "NLP-powered conversational agent with Dialogflow + Telegram API and a live MySQL backend.",
     tag: "Gen-AI",
@@ -62,6 +69,7 @@ const projects = [
   },
   {
     slug: "maru",
+    code: "LOG.002",
     title: "AutoVista — MERN Marketplace",
     desc: "Production-grade virtual car showroom built end-to-end with the MERN stack.",
     tag: "Web Dev",
@@ -70,6 +78,7 @@ const projects = [
   },
   {
     slug: "critter",
+    code: "LOG.003",
     title: "Autonomous ROV",
     desc: "ML-assisted remote operated vehicle with real-time sensor feedback and Bluetooth control.",
     tag: "Robotics",
@@ -78,6 +87,7 @@ const projects = [
   },
   {
     slug: "web",
+    code: "LOG.004",
     title: "Fire Fighting Robot",
     desc: "Autonomous fire-detection robot with flame sensors, water pump actuation, and motor control.",
     tag: "Robotics",
@@ -116,131 +126,199 @@ const stack = [
 function Home() {
   return (
     <>
-      {/* HERO */}
+      {/* ============ HERO — DEEP SPACE ============ */}
       <section className="relative min-h-screen flex items-center pt-24 pb-16 overflow-hidden">
-        <div className="absolute inset-0 grid-bg opacity-40" />
-        <img
-          src={heroBg}
-          alt=""
-          aria-hidden
-          className="absolute inset-0 w-full h-full object-cover opacity-30 mix-blend-screen pointer-events-none"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/50 to-background pointer-events-none" />
+        {/* Layered cosmic background */}
+        <div className="absolute inset-0">
+          <img
+            src={spaceHero}
+            alt=""
+            aria-hidden
+            className="absolute inset-0 w-full h-full object-cover opacity-60 animate-fade-in"
+          />
+          <Starfield density={200} />
+          <div className="absolute inset-0 grid-mission opacity-40" />
+          <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/20 to-background pointer-events-none" />
+          <div className="absolute inset-0 vignette pointer-events-none" />
+        </div>
 
-        <div className="relative max-w-7xl mx-auto px-6 lg:px-10 w-full">
+        {/* Floating black hole — far right */}
+        <div className="absolute right-[-15%] top-1/2 -translate-y-1/2 w-[600px] h-[600px] hidden lg:block opacity-70 pointer-events-none animate-drift">
+          <img
+            src={blackhole}
+            alt=""
+            aria-hidden
+            className="w-full h-full object-contain animate-spin-slow"
+          />
+        </div>
+
+        {/* HUD top-bar */}
+        <div className="absolute top-20 inset-x-0 px-6 lg:px-10 hidden md:flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.25em] text-stellar/60 z-10">
+          <div className="flex items-center gap-4">
+            <span className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-stellar animate-pulse-stellar" />
+              SECTOR · 04 / EARTH
+            </span>
+            <span className="text-muted-foreground">VEC 0.998c</span>
+          </div>
+          <div className="flex items-center gap-4">
+            <span>SYS · NOMINAL</span>
+            <span className="text-muted-foreground">REL ⏵ 2026.04</span>
+          </div>
+        </div>
+
+        <div className="relative max-w-7xl mx-auto px-6 lg:px-10 w-full z-10">
           <div className="max-w-4xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-border-bright bg-surface px-4 py-1.5 mb-8 animate-fade-up">
-              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse-glow" />
-              <span className="font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground">
-                Available for Opportunities
+            <div
+              className="inline-flex items-center gap-3 mb-8 animate-fade-up"
+            >
+              <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-stellar">
+                ⏵ TRANSMISSION RECEIVED
+              </span>
+              <span className="font-mono text-[10px] text-muted-foreground">
+                ID · KS-9925
               </span>
             </div>
 
-            <h1
-              className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-[0.95] tracking-tighter animate-fade-up"
+            <p
+              className="font-mono text-xs uppercase tracking-[0.4em] text-muted-foreground mb-6 animate-fade-up"
               style={{ animationDelay: "0.1s" }}
             >
-              Building intelligent
-              <br />
-              systems that{" "}
-              <span className="text-gradient-accent">think</span>.
-            </h1>
-
-            <p
-              className="mt-8 max-w-2xl text-lg md:text-xl text-muted-foreground leading-relaxed animate-fade-up"
-              style={{ animationDelay: "0.25s" }}
-            >
-              I'm <span className="text-foreground font-medium">Sai Sasir K</span> — a
-              Gen-AI & ML Engineer specializing in large language models, RAG pipelines,
-              and autonomous agent systems. I bridge cutting-edge research and
-              production reliability.
+              Mission Log · Personnel
             </p>
 
+            <h1
+              className="text-6xl sm:text-7xl md:text-8xl lg:text-[10rem] font-bold leading-[0.88] tracking-tighter animate-fade-up text-glow-soft"
+              style={{ animationDelay: "0.2s" }}
+            >
+              SAI
+              <br />
+              <span className="text-gradient-stellar">SASIR</span>
+              <span className="text-stellar/60"> · K</span>
+            </h1>
+
             <div
-              className="mt-10 flex flex-wrap items-center gap-4 animate-fade-up"
+              className="mt-10 max-w-2xl animate-fade-up"
               style={{ animationDelay: "0.4s" }}
             >
-              <a
-                href="#projects"
-                className="group inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground hover:opacity-90 transition-all shadow-[0_0_30px_oklch(0.78_0.16_210/0.4)]"
-              >
-                View My Work
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </a>
-              <a
-                href="#contact"
-                className="inline-flex items-center gap-2 rounded-full border border-border-bright px-6 py-3 text-sm font-semibold hover:bg-surface transition-all"
-              >
-                Get in Touch
-              </a>
+              <div className="flex items-start gap-3 font-mono text-sm text-muted-foreground leading-relaxed">
+                <span className="text-stellar mt-1 shrink-0">⏵</span>
+                <p>
+                  <span className="text-foreground">
+                    Gen-AI & ML Engineer.
+                  </span>{" "}
+                  Building intelligent systems on the edge of what's possible —
+                  large language models, RAG pipelines, autonomous agents, and
+                  embodied AI. Bridging research and production with the
+                  precision of a mission-critical launch sequence.
+                </p>
+              </div>
             </div>
 
             <div
-              className="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-2xl animate-fade-up"
+              className="mt-12 flex flex-wrap items-center gap-3 animate-fade-up"
               style={{ animationDelay: "0.55s" }}
             >
+              <a
+                href="#projects"
+                className="group inline-flex items-center gap-3 rounded-sm bg-stellar px-7 py-3.5 text-xs font-mono uppercase tracking-[0.2em] text-background hover:bg-primary transition-all shadow-[0_0_40px_oklch(0.78_0.15_65/0.4)]"
+              >
+                Initiate Mission
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+              </a>
+              <a
+                href="#contact"
+                className="hud-corners inline-flex items-center gap-2 px-7 py-3.5 text-xs font-mono uppercase tracking-[0.2em] border border-stellar/30 hover:border-stellar hover:bg-stellar/5 transition-all"
+              >
+                Open Comms
+              </a>
+            </div>
+
+            {/* Telemetry strip */}
+            <div
+              className="mt-20 grid grid-cols-2 sm:grid-cols-4 gap-px bg-stellar/10 border border-stellar/20 animate-fade-up"
+              style={{ animationDelay: "0.7s" }}
+            >
               {[
-                { num: "4+", label: "AI Projects" },
+                { num: "04+", label: "Missions" },
                 { num: "AWS", label: "Certified" },
-                { num: "8.2", label: "CGPA / 10" },
-                { num: "VIT '25", label: "Graduate" },
+                { num: "8.20", label: "CGPA" },
+                { num: "VIT '25", label: "Origin" },
               ].map((s) => (
-                <div key={s.label} className="border-l border-border-bright pl-4">
-                  <div className="font-display text-2xl font-bold text-gradient">
-                    {s.num}
-                  </div>
-                  <div className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground mt-1">
+                <div
+                  key={s.label}
+                  className="bg-background/80 backdrop-blur-sm p-5 hover:bg-stellar/5 transition-colors group"
+                >
+                  <div className="font-mono text-[9px] uppercase tracking-[0.25em] text-muted-foreground mb-2">
                     {s.label}
+                  </div>
+                  <div className="font-display text-2xl font-bold text-stellar text-glow group-hover:scale-105 transition-transform origin-left inline-block">
+                    {s.num}
                   </div>
                 </div>
               ))}
             </div>
           </div>
         </div>
+
+        {/* Bottom HUD */}
+        <div className="absolute bottom-6 inset-x-0 px-6 lg:px-10 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground z-10">
+          <span className="flex items-center gap-2">
+            <span className="w-2 h-2 border border-stellar animate-pulse-stellar" />
+            Scroll · Continue Transmission
+          </span>
+          <span className="hidden md:inline">⌁ 9925.04.18 ⌁</span>
+        </div>
       </section>
 
-      {/* EXPERTISE */}
+      {/* ============ EXPERTISE ============ */}
       <Section
         id="expertise"
-        eyebrow="01 — What I Do"
-        title="Expertise"
-        description="Core domains where I architect, build, and deploy intelligent systems."
+        index="01"
+        eyebrow="Mission Capabilities"
+        title="Operational Domains"
+        description="Core systems where I architect, build, and deploy intelligent infrastructure — across the AI, ML, and robotics stack."
       >
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {expertise.map(({ icon: Icon, title, desc, tags }) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-stellar/10 border border-stellar/20">
+          {expertise.map(({ icon: Icon, code, title, desc, tags }) => (
             <div
               key={title}
-              className="group relative rounded-2xl border border-border bg-surface p-8 hover:border-border-bright transition-all overflow-hidden"
+              className="group relative bg-background p-8 lg:p-10 hover:bg-stellar/5 transition-all overflow-hidden"
             >
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-gradient-to-br from-primary/5 to-accent/5 transition-opacity" />
-              <div className="relative">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center mb-6">
-                  <Icon className="w-6 h-6 text-primary-foreground" />
+              <div className="flex items-start justify-between mb-6">
+                <div className="w-12 h-12 border border-stellar/30 flex items-center justify-center group-hover:border-stellar group-hover:bg-stellar/10 transition-all">
+                  <Icon className="w-5 h-5 text-stellar" />
                 </div>
-                <h3 className="text-xl font-semibold mb-3">{title}</h3>
-                <p className="text-muted-foreground leading-relaxed mb-6">{desc}</p>
-                <div className="flex flex-wrap gap-2">
-                  {tags.map((t) => (
-                    <span
-                      key={t}
-                      className="font-mono text-[11px] px-2.5 py-1 rounded-md border border-border text-muted-foreground"
-                    >
-                      {t}
-                    </span>
-                  ))}
-                </div>
+                <span className="font-mono text-[10px] tracking-[0.2em] text-stellar/60">
+                  ⏵ {code}
+                </span>
+              </div>
+              <h3 className="text-2xl font-semibold mb-3">{title}</h3>
+              <p className="text-muted-foreground leading-relaxed mb-6 text-sm">
+                {desc}
+              </p>
+              <div className="flex flex-wrap gap-1.5">
+                {tags.map((t) => (
+                  <span
+                    key={t}
+                    className="font-mono text-[10px] uppercase tracking-wider px-2 py-1 border border-border text-muted-foreground"
+                  >
+                    {t}
+                  </span>
+                ))}
               </div>
             </div>
           ))}
         </div>
       </Section>
 
-      {/* PROJECTS */}
+      {/* ============ PROJECTS ============ */}
       <Section
         id="projects"
-        eyebrow="02 — Selected Work"
-        title="Projects"
-        description="A selection of AI, full-stack, and robotics projects I've designed and built end-to-end."
+        index="02"
+        eyebrow="Mission Logs"
+        title="Selected Operations"
+        description="Field reports from completed missions — AI systems, full-stack platforms, and autonomous robotics."
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {projects.map((p) => (
@@ -248,40 +326,45 @@ function Home() {
               key={p.slug}
               to="/projects/$slug"
               params={{ slug: p.slug }}
-              className="group relative rounded-2xl border border-border bg-surface overflow-hidden hover:border-border-bright transition-all"
+              className="group relative border border-border hover:border-stellar/50 bg-background overflow-hidden transition-all"
             >
-              <div className="aspect-[16/10] overflow-hidden bg-muted relative">
+              <div className="aspect-[16/9] overflow-hidden bg-deep relative">
                 <img
                   src={p.image}
                   alt={p.title}
                   loading="lazy"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  className="w-full h-full object-cover opacity-70 group-hover:opacity-90 group-hover:scale-105 transition-all duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
-                <span className="absolute top-4 left-4 font-mono text-[10px] uppercase tracking-[0.15em] px-2.5 py-1 rounded-full bg-background/80 backdrop-blur border border-border-bright">
-                  {p.tag}
-                </span>
+                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
+                <div className="absolute inset-0 scanlines opacity-20 pointer-events-none" />
+
+                <div className="absolute top-4 left-4 right-4 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.2em]">
+                  <span className="text-stellar bg-background/80 backdrop-blur px-2 py-1 border border-stellar/30">
+                    ⏵ {p.code}
+                  </span>
+                  <span className="text-muted-foreground bg-background/80 backdrop-blur px-2 py-1">
+                    {p.tag}
+                  </span>
+                </div>
               </div>
-              <div className="p-6">
-                <div className="flex items-start justify-between gap-4 mb-2">
-                  <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">
+              <div className="p-6 lg:p-8 relative">
+                <div className="flex items-start justify-between gap-4 mb-3">
+                  <h3 className="text-xl font-semibold group-hover:text-stellar transition-colors">
                     {p.title}
                   </h3>
-                  <ArrowUpRight className="w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:-translate-y-1 group-hover:translate-x-1 transition-all flex-shrink-0" />
+                  <ArrowUpRight className="w-5 h-5 text-muted-foreground group-hover:text-stellar group-hover:-translate-y-1 group-hover:translate-x-1 transition-all flex-shrink-0" />
                 </div>
-                <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+                <p className="text-sm text-muted-foreground leading-relaxed mb-5">
                   {p.desc}
                 </p>
-                <div className="flex flex-wrap gap-1.5">
+                <div className="flex flex-wrap gap-x-3 gap-y-1">
                   {p.stack.map((s) => (
                     <span
                       key={s}
-                      className="font-mono text-[10px] text-muted-foreground"
+                      className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground"
                     >
+                      <span className="text-stellar/40 mr-1">·</span>
                       {s}
-                      {s !== p.stack[p.stack.length - 1] && (
-                        <span className="mx-1.5 text-border-bright">·</span>
-                      )}
                     </span>
                   ))}
                 </div>
@@ -291,29 +374,35 @@ function Home() {
         </div>
       </Section>
 
-      {/* STACK */}
+      {/* ============ STACK ============ */}
       <Section
         id="stack"
-        eyebrow="03 — Toolkit"
+        index="03"
+        eyebrow="Spacecraft Systems"
         title="Tech Stack"
-        description="The AI/ML ecosystem I build with — from research to production."
+        description="Onboard instruments — the AI/ML ecosystem that powers every mission."
       >
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {stack.map((cat) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-stellar/10 border border-stellar/20">
+          {stack.map((cat, i) => (
             <div
               key={cat.title}
-              className="rounded-2xl border border-border bg-surface p-6 hover:border-border-bright transition-all"
+              className="bg-background p-6 lg:p-8 hover:bg-stellar/5 transition-all"
             >
-              <h4 className="font-mono text-xs uppercase tracking-[0.18em] text-primary mb-4">
-                {cat.title}
-              </h4>
-              <div className="flex flex-wrap gap-2">
-                {cat.items.map((i) => (
+              <div className="flex items-center justify-between mb-5">
+                <h4 className="font-mono text-[11px] uppercase tracking-[0.25em] text-stellar">
+                  {cat.title}
+                </h4>
+                <span className="font-mono text-[10px] text-muted-foreground">
+                  {String(i + 1).padStart(2, "0")} / {String(stack.length).padStart(2, "0")}
+                </span>
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                {cat.items.map((item) => (
                   <span
-                    key={i}
-                    className="text-sm px-3 py-1 rounded-md bg-muted text-foreground/90"
+                    key={item}
+                    className="text-xs px-2.5 py-1 bg-muted/50 border border-border text-foreground/90 font-mono"
                   >
-                    {i}
+                    {item}
                   </span>
                 ))}
               </div>
@@ -322,76 +411,114 @@ function Home() {
         </div>
       </Section>
 
-      {/* ABOUT */}
+      {/* ============ ABOUT — CREW DOSSIER ============ */}
       <Section
         id="about"
-        eyebrow="04 — Background"
-        title="About"
+        index="04"
+        eyebrow="Crew Dossier"
+        title="Personnel File"
       >
         <div className="grid lg:grid-cols-3 gap-10">
-          <div className="lg:col-span-2 space-y-5 text-base md:text-lg text-muted-foreground leading-relaxed">
-            <p>
-              I'm a Gen-AI & ML Engineer with deep specialization in large language
-              models, generative AI systems, and intelligent automation. I architect and
-              deploy AI solutions that bridge the gap between cutting-edge research and
-              production reliability — with a focus on{" "}
-              <span className="text-foreground">LLM fine-tuning</span>,{" "}
-              <span className="text-foreground">RAG pipelines</span>, and{" "}
-              <span className="text-foreground">autonomous agent systems</span>.
+          <div className="lg:col-span-2 space-y-5">
+            <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-stellar mb-4">
+              ⏵ ABSTRACT · CLEARANCE · ALPHA
+            </div>
+            <p className="text-base md:text-lg text-foreground/85 leading-relaxed">
+              Gen-AI & ML Engineer with deep specialization in large language
+              models, generative AI systems, and intelligent automation. I
+              architect and deploy AI solutions that bridge cutting-edge
+              research and production reliability — focused on{" "}
+              <span className="text-stellar">LLM fine-tuning</span>,{" "}
+              <span className="text-stellar">RAG pipelines</span>, and{" "}
+              <span className="text-stellar">autonomous agents</span>.
             </p>
-            <p>
-              My background in AI & Robotics gives me a unique perspective — I think
-              about intelligence from both software and hardware angles. The most
-              impactful AI isn't built in isolation, but through rigorous engineering,
-              domain collaboration, and a relentless focus on real-world outcomes.
+            <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
+              Background in AI & Robotics gives me a unique perspective — I
+              think about intelligence from both software and hardware angles.
+              The most impactful AI isn't built in isolation, but through
+              rigorous engineering, domain collaboration, and a relentless
+              focus on real-world outcomes.
             </p>
-            <p>
-              When I'm not deep in model training runs, I'm exploring the intersection
-              of embodied AI and language models.
+            <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
+              When I'm not deep in model training runs, I'm exploring the
+              intersection of embodied AI and language models — chasing
+              questions at the boundary of what machines can know.
             </p>
+
+            <blockquote className="border-l-2 border-stellar pl-6 mt-10 italic text-stellar/80 font-display text-lg">
+              "We used to look up at the sky and wonder at our place in the
+              stars. Now we just look down and worry about our place in the
+              dirt."
+              <footer className="mt-2 not-italic font-mono text-[10px] tracking-[0.2em] uppercase text-muted-foreground">
+                — Cooper · Interstellar
+              </footer>
+            </blockquote>
           </div>
-          <div className="space-y-4">
-            <InfoCard icon={GraduationCap} label="Education">
-              <div className="text-foreground font-medium">Vellore Institute of Technology</div>
-              <div className="text-sm text-muted-foreground">
-                B.Tech, AI & Robotics · 2021–2025
+
+          <div className="space-y-3">
+            <DossierCard icon={GraduationCap} label="Origin">
+              <div className="font-display text-foreground font-semibold">
+                Vellore Institute of Technology
               </div>
-              <div className="font-mono text-xs text-primary mt-1">CGPA 8.20 / 10</div>
-            </InfoCard>
-            <InfoCard icon={Award} label="Certifications">
-              <ul className="text-sm text-muted-foreground space-y-1">
-                <li>AWS Certified Cloud Practitioner</li>
-                <li>MERN Full-Stack — Ethnus</li>
-                <li>Database Mgmt — U. of Colorado</li>
+              <div className="text-sm text-muted-foreground mt-1">
+                B.Tech · AI & Robotics · 2021–2025
+              </div>
+              <div className="font-mono text-[11px] text-stellar mt-2">
+                CGPA · 8.20 / 10
+              </div>
+            </DossierCard>
+            <DossierCard icon={Award} label="Certifications">
+              <ul className="text-sm text-muted-foreground space-y-1.5 font-mono">
+                <li>⏵ AWS Cloud Practitioner</li>
+                <li>⏵ MERN Full-Stack — Ethnus</li>
+                <li>⏵ Database Mgmt — U. Colorado</li>
               </ul>
-            </InfoCard>
-            <InfoCard icon={MapPin} label="Based in">
-              <div className="text-foreground">India · Remote-friendly</div>
-            </InfoCard>
+            </DossierCard>
+            <DossierCard icon={Radio} label="Status">
+              <div className="font-mono text-sm text-foreground flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-stellar animate-pulse-stellar" />
+                AVAILABLE FOR MISSIONS
+              </div>
+              <div className="font-mono text-[10px] text-muted-foreground mt-2">
+                India · Remote-friendly · Global ops
+              </div>
+            </DossierCard>
           </div>
         </div>
       </Section>
 
-      {/* CONTACT */}
-      <section id="contact" className="scroll-mt-20 py-24 lg:py-32">
-        <div className="max-w-7xl mx-auto px-6 lg:px-10">
-          <div className="rounded-3xl border border-border-bright bg-gradient-to-br from-surface to-background p-10 md:p-16 text-center relative overflow-hidden">
-            <div className="absolute inset-0 grid-bg opacity-50 pointer-events-none" />
+      {/* ============ CONTACT — COMMS ============ */}
+      <section
+        id="contact"
+        className="relative scroll-mt-20 py-24 lg:py-32 overflow-hidden"
+      >
+        <div className="absolute inset-0 pointer-events-none">
+          <Starfield density={80} />
+          <div className="absolute inset-0 grid-mission opacity-30" />
+        </div>
+        <div className="relative max-w-7xl mx-auto px-6 lg:px-10">
+          <div className="hud-corners border border-stellar/30 bg-background/60 backdrop-blur-sm p-10 md:p-20 text-center relative overflow-hidden">
+            <div className="absolute inset-0 pointer-events-none scanlines opacity-10" />
             <div className="relative">
-              <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary mb-4">
-                05 — Let's Talk
-              </p>
-              <h2 className="text-4xl md:text-6xl font-bold tracking-tight">
+              <div className="flex items-center justify-center gap-3 mb-6">
+                <span className="w-12 h-px bg-stellar" />
+                <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-stellar">
+                  ⏵ Open Channel · 05
+                </span>
+                <span className="w-12 h-px bg-stellar" />
+              </div>
+
+              <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-glow-soft">
                 Building something
                 <br />
-                with <span className="text-gradient-accent">AI</span>?
+                at the <span className="text-gradient-stellar">edge</span>?
               </h2>
-              <p className="mt-6 text-lg text-muted-foreground max-w-xl mx-auto">
-                Whether it's an LLM-powered product, ML infrastructure, or an
-                experimental agent — I'd love to hear about it.
+              <p className="mt-6 text-base md:text-lg text-muted-foreground max-w-xl mx-auto leading-relaxed">
+                LLM-powered products. ML infrastructure. Experimental agents.
+                If you're working at the frontier — let's talk.
               </p>
 
-              <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+              <div className="mt-12 flex flex-wrap items-center justify-center gap-3">
                 <ContactLink href="mailto:saisasir99@gmail.com" icon={Mail}>
                   saisasir99@gmail.com
                 </ContactLink>
@@ -407,8 +534,13 @@ function Home() {
                   icon={Linkedin}
                   external
                 >
-                  linkedin.com/in/saisasirkosuri
+                  linkedin/saisasirkosuri
                 </ContactLink>
+              </div>
+
+              <div className="mt-12 font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground flex items-center justify-center gap-2">
+                <span className="animate-blink text-stellar">▋</span>
+                Awaiting transmission
               </div>
             </div>
           </div>
@@ -418,7 +550,7 @@ function Home() {
   );
 }
 
-function InfoCard({
+function DossierCard({
   icon: Icon,
   label,
   children,
@@ -428,10 +560,10 @@ function InfoCard({
   children: React.ReactNode;
 }) {
   return (
-    <div className="rounded-2xl border border-border bg-surface p-5">
-      <div className="flex items-center gap-2 mb-3">
-        <Icon className="w-4 h-4 text-primary" />
-        <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+    <div className="border border-border bg-background/60 p-5 hover:border-stellar/40 transition-colors">
+      <div className="flex items-center gap-2 mb-3 pb-3 border-b border-border">
+        <Icon className="w-3.5 h-3.5 text-stellar" />
+        <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
           {label}
         </span>
       </div>
@@ -455,10 +587,10 @@ function ContactLink({
     <a
       href={href}
       {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-      className="group inline-flex items-center gap-3 rounded-full border border-border bg-background/60 backdrop-blur px-5 py-3 text-sm hover:border-primary hover:text-primary transition-all"
+      className="group inline-flex items-center gap-3 border border-border bg-background/80 backdrop-blur px-5 py-3 text-xs hover:border-stellar hover:text-stellar transition-all font-mono"
     >
-      <Icon className="w-4 h-4" />
-      <span className="font-mono">{children}</span>
+      <Icon className="w-3.5 h-3.5" />
+      <span className="tracking-wider">{children}</span>
     </a>
   );
 }
