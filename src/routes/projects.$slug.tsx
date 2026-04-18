@@ -139,7 +139,7 @@ export const Route = createFileRoute("/projects/$slug")({
 });
 
 function ProjectPage() {
-  const { project } = Route.useLoaderData();
+  const { project } = Route.useLoaderData() as { project: Project };
 
   return (
     <article className="pt-32 pb-20">
