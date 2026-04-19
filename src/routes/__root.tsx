@@ -31,14 +31,14 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Sai Sasir K — Gen-AI & ML Engineer" },
+      { title: "Ssk" },
       {
         name: "description",
         content:
           "Sai Sasir K — Gen-AI & ML Engineer specializing in large language models, RAG pipelines, autonomous agents, and production ML systems.",
       },
       { name: "author", content: "Sai Sasir K" },
-      { property: "og:title", content: "Sai Sasir K — Gen-AI & ML Engineer" },
+      { property: "og:title", content: "Ssk" },
       {
         property: "og:description",
         content:
@@ -46,6 +46,12 @@ export const Route = createRootRoute({
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Ssk" },
+      { name: "description", content: "A professional portfolio website showcasing expertise, projects, and skills for a Gen-AI & ML Engineer." },
+      { property: "og:description", content: "A professional portfolio website showcasing expertise, projects, and skills for a Gen-AI & ML Engineer." },
+      { name: "twitter:description", content: "A professional portfolio website showcasing expertise, projects, and skills for a Gen-AI & ML Engineer." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/a12c37a3-c430-4aae-b2b1-9cf000eacc99/id-preview-f2076d8f--247c9959-5e97-4ccd-b766-f155a8ed7951.lovable.app-1776583796162.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/a12c37a3-c430-4aae-b2b1-9cf000eacc99/id-preview-f2076d8f--247c9959-5e97-4ccd-b766-f155a8ed7951.lovable.app-1776583796162.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
