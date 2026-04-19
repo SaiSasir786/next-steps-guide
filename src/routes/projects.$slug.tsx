@@ -1,6 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ArrowLeft, ExternalLink, Github } from "lucide-react";
-import { Starfield } from "@/components/Starfield";
+import { ArrowLeft, ArrowUpRight, ExternalLink, Github } from "lucide-react";
 import projectChatbot from "@/assets/project-chatbot.jpg";
 import projectAutovista from "@/assets/project-autovista.jpg";
 import projectFire from "@/assets/firefighter.jpg";
