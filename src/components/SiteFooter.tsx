@@ -7,7 +7,7 @@ export function SiteFooter() {
         <div className="grid md:grid-cols-3 gap-8 items-end">
           <div>
             <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground mb-2">
-              Transmission End
+              Portfolio
             </p>
             <h3 className="font-display font-bold text-xl tracking-tight">
               SAI SASIR · K
@@ -37,10 +37,10 @@ export function SiteFooter() {
 
           <div className="md:text-right">
             <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-              © {new Date().getFullYear()} · All Systems Nominal
+              © {new Date().getFullYear()} · Sai Sasir Kosuri
             </p>
             <p className="font-mono text-[10px] text-stellar/60 mt-1">
-              "We're not meant to save the world. We're meant to leave it."
+              Built with React · TanStack · Tailwind
             </p>
           </div>
         </div>

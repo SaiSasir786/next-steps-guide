@@ -6,6 +6,11 @@ import projectAutovista from "@/assets/project-autovista.jpg";
 import projectFire from "@/assets/firefighter.jpg";
 import projectRov from "@/assets/rov.jpg";
 
+type Section = {
+  heading: string;
+  body: string;
+};
+
 type Project = {
   slug: string;
   code: string;
@@ -15,7 +20,10 @@ type Project = {
   summary: string;
   image: string;
   stack: string[];
+  role: string;
+  duration: string;
   overview: string;
+  sections: Section[];
   highlights: string[];
   links?: { label: string; href: string; icon?: "github" | "external" }[];
 };
@@ -23,35 +31,83 @@ type Project = {
 const PROJECTS: Record<string, Project> = {
   "travel-bot": {
     slug: "travel-bot",
-    code: "LOG.001",
+    code: "01",
     title: "AI Travel Booking Assistant",
     tag: "Gen-AI · Conversational AI",
     year: "2024",
+    role: "Solo developer — NLP, backend, integration",
+    duration: "8 weeks",
     summary:
-      "NLP-powered conversational agent automating end-to-end travel booking via Telegram.",
+      "An end-to-end conversational booking system that handles natural-language travel requests on Telegram with a live database backend.",
     image: projectChatbot,
     stack: ["Dialogflow", "JavaScript", "PHP", "MySQL", "Telegram Bot API"],
     overview:
-      "An end-to-end conversational booking system that handles intent recognition, slot filling, and database transactions without human intervention. Users chat naturally on Telegram and the agent resolves their booking against a structured backend.",
+      "Travel-Bot is a conversational AI agent that automates the entire flight and hotel booking workflow inside Telegram. Users chat in natural language and the agent handles intent recognition, slot-filling, database lookups, and confirmation — without ever talking to a human.",
+    sections: [
+      {
+        heading: "Problem",
+        body: "Most online booking flows rely on rigid forms and multi-step UIs. The goal was to collapse this into a single conversational thread — where users could say 'book me a flight from Hyderabad to Delhi next Friday' and have the system do the rest.",
+      },
+      {
+        heading: "Approach",
+        body: "I built the NLU layer in Google Dialogflow, designing intents for booking, modification, cancellation, and FAQs. Each intent extracts entities (dates, cities, passenger counts) and posts them to a PHP REST API which validates against a normalized MySQL schema and returns booking confirmations.",
+      },
+      {
+        heading: "Conversational Flow",
+        body: "The bot supports multi-turn slot-filling — if a user provides a partial request, Dialogflow prompts them for missing fields. Context is preserved across turns, so users can correct, modify, or cancel a booking in-line. Confirmation messages are sent via the Telegram Bot API webhook.",
+      },
+      {
+        heading: "Backend & Data",
+        body: "PHP endpoints handle authentication, booking transactions, and seat-availability checks. The MySQL schema is normalized across users, bookings, flights, and payments — with foreign keys ensuring referential integrity. The webhook layer is stateless and horizontally scalable.",
+      },
+    ],
     highlights: [
       "Engineered intent recognition and entity extraction with Google Dialogflow.",
       "Designed a normalized MySQL schema with PHP REST APIs for booking management.",
-      "Achieved a fully automated booking flow — discovery, selection, payment confirmation.",
-      "Deployed to Telegram with webhook integration for real-time interactions.",
+      "Built a fully automated booking flow — discovery, selection, and confirmation.",
+      "Integrated with the Telegram Bot API via webhook for real-time interactions.",
     ],
   },
   maru: {
     slug: "maru",
-    code: "LOG.002",
+    code: "02",
     title: "AutoVista — Full-Stack Car Marketplace",
     tag: "Web Dev · MERN",
     year: "2023",
+    role: "Full-stack developer — MERN, UI/UX, deployment",
+    duration: "12 weeks",
     summary:
-      "Production-grade virtual car showroom built end-to-end with MongoDB, Express, React, and Node.",
+      "A production-grade virtual car showroom built end-to-end with MongoDB, Express, React, and Node.",
     image: projectAutovista,
     stack: ["React.js", "Node.js", "Express", "MongoDB", "Bootstrap"],
     overview:
-      "A complete buy/sell/browse platform for cars with dynamic inventory, authentication, and a recommendation layer. Architected with RESTful APIs, a React frontend with state management, and MongoDB for flexible schema storage.",
+      "AutoVista is a web application designed to enhance the car-buying experience by offering a digital showroom where users can explore various models. The platform provides detailed information, specifications, and images of vehicles — letting potential buyers research and compare cars conveniently online without visiting a physical showroom.",
+    sections: [
+      {
+        heading: "Overview & Role",
+        body: "I built AutoVista end-to-end as a solo project — designing the data model, building RESTful APIs in Express, the React frontend with state management, and deploying it live on Vercel with a CI/CD pipeline on GitHub.",
+      },
+      {
+        heading: "Home Page that Invites Interaction",
+        body: "The home page features a sleek dark design with a moving background of a car driving — creating a dynamic, engaging atmosphere. A prominent search bar lets users find car models by name or type, with quick filters for new, used, and electric vehicles. The top navigation gives instant access to categories, user profiles, and listings.",
+      },
+      {
+        heading: "Latest Launches",
+        body: "After researching the best methods for showcasing new car models, I built a 'Latest Launches' section that highlights the newest releases — like the 2024 Volvo S60 Recharge, Mitsubishi Eclipse Cross, and BMW X3 M. I used React's component model to render individual car pages dynamically, ensuring a streamlined and scalable system for adding inventory.",
+      },
+      {
+        heading: "Browse by Brand",
+        body: "To help users easily find their preferred vehicles, the 'Shop your favorite brand' section features a curated grid of popular brands — Audi, BMW, Lamborghini, Ford, Honda, Hyundai, Jaguar, Kia, Mercedes-Benz, Porsche, Toyota, and Volkswagen. The organized layout lets users navigate to a brand and explore available models in one click.",
+      },
+      {
+        heading: "Why Choose AutoVista?",
+        body: "Transparent pricing — no hidden fees or surprises. Time-saving filters and search to find the right car quickly. Flexible shopping at the user's own pace, from anywhere. Quick sign-up with personalized car recommendations and saved listings.",
+      },
+      {
+        heading: "Tech & Deployment",
+        body: "Frontend in React with Bootstrap for responsive layouts. Backend in Node.js + Express with MongoDB Atlas as the data store. JWT authentication and role-based access control for buyers, sellers, and admins. Deployed live on Vercel with automatic builds on every push to GitHub.",
+      },
+    ],
     highlights: [
       "Designed RESTful APIs with Express.js and MongoDB Atlas.",
       "Built a responsive React frontend with cart, filters, and listing flows.",
@@ -65,16 +121,36 @@ const PROJECTS: Record<string, Project> = {
   },
   critter: {
     slug: "critter",
-    code: "LOG.003",
+    code: "03",
     title: "Autonomous Remote Operated Vehicle",
     tag: "Robotics · Embedded",
     year: "2024",
+    role: "Hardware + firmware — chassis, electronics, CV pipeline",
+    duration: "10 weeks",
     summary:
-      "ML-assisted ROV with real-time sensor fusion, wireless control, and computer-vision feedback.",
+      "An ML-assisted ROV with real-time sensor fusion, wireless control, and computer-vision feedback.",
     image: projectRov,
     stack: ["Arduino", "Bluetooth Module", "Python", "OpenCV", "RF"],
     overview:
-      "A four-wheeled remote-operated vehicle controlled over Bluetooth, with onboard sensors providing telemetry and an ML-assisted obstacle awareness layer. Built around an Arduino UNO with motor driver, custom chassis, and modular firmware.",
+      "A four-wheeled remote-operated vehicle controlled over Bluetooth, with onboard sensors providing telemetry and an ML-assisted obstacle awareness layer. Built around an Arduino UNO with a motor driver, custom chassis, and modular firmware.",
+    sections: [
+      {
+        heading: "Problem",
+        body: "The goal was to build a low-cost, modular ROV platform that could be controlled wirelessly and extended with ML-based perception — useful for inspection, prototyping, and learning.",
+      },
+      {
+        heading: "Mechanical Design",
+        body: "I designed and prototyped the chassis from scratch — a four-wheel-drive layout powered by 18650 lithium cells, with the motor driver and microcontroller mounted on a vibration-dampened deck. The chassis is rigid enough for off-road driving while remaining lightweight.",
+      },
+      {
+        heading: "Control & Wireless Protocol",
+        body: "Control is handled via a Bluetooth module paired with a mobile companion app. I designed a compact command protocol that maps directional inputs and speed adjustments to PWM signals on the L298 motor driver — supporting differential steering for tight turns.",
+      },
+      {
+        heading: "Computer Vision Layer",
+        body: "An OpenCV pipeline (running on a host machine, with a streaming camera onboard) detects obstacles and drivable paths in real-time. This gives the operator a 'second pair of eyes' and lays groundwork for autonomous navigation in future iterations.",
+      },
+    ],
     highlights: [
       "Designed and prototyped the chassis, wiring, and power-distribution.",
       "Implemented a Bluetooth control protocol with mobile companion commands.",
@@ -84,16 +160,36 @@ const PROJECTS: Record<string, Project> = {
   },
   web: {
     slug: "web",
-    code: "LOG.004",
+    code: "04",
     title: "Fire Fighting Robot",
     tag: "Robotics · Embedded",
     year: "2023",
+    role: "Hardware + firmware — sensors, actuators, control loop",
+    duration: "6 weeks",
     summary:
-      "Autonomous fire-detection robot with flame sensing, water-pump actuation, and motor control.",
+      "An autonomous fire-detection robot with flame sensing, water-pump actuation, and motor control.",
     image: projectFire,
     stack: ["Arduino", "L298 Motor Driver", "Flame Sensor", "Water Pump", "C++"],
     overview:
       "An Arduino-based autonomous robot that detects flames using IR flame sensors and actuates a pump-fed water nozzle to extinguish them. Designed for rapid prototyping and demonstrating real-world embedded control loops.",
+    sections: [
+      {
+        heading: "Problem",
+        body: "Early fire detection and suppression in confined spaces (server rooms, kitchens, labs) is critical. The aim was to prototype a low-cost autonomous unit that can patrol, detect a flame, navigate to it, and suppress it without human input.",
+      },
+      {
+        heading: "Sensing & Detection",
+        body: "An array of three IR flame sensors mounted at different angles provides directional flame detection. The firmware applies thresholding and angle estimation to compute a heading toward the flame source — giving the robot enough information to drive toward it accurately.",
+      },
+      {
+        heading: "Drive & Suppression",
+        body: "The robot uses an L298 motor driver controlled via PWM for differential steering on a 4-wheel drive chassis powered by 18650 cells. Once aligned with the flame, a relay-driven 5V water pump activates the suppression nozzle, which is aimed using a small servo for fine adjustment.",
+      },
+      {
+        heading: "Control Loop",
+        body: "The main loop runs at ~50 Hz on an Arduino UNO — sampling the sensor array, updating motor commands, and managing the pump activation state machine. The firmware is written in modular C++ for easy extension with additional sensors or actuators.",
+      },
+    ],
     highlights: [
       "Custom chassis with 4-wheel drive powered by 18650 cells.",
       "L298 motor driver controlled via PWM for differential steering.",
@@ -111,8 +207,8 @@ export const Route = createFileRoute("/projects/$slug")({
   },
   head: ({ loaderData }) => {
     const p = loaderData?.project;
-    if (!p) return { meta: [{ title: "Mission Log — Sai Sasir K" }] };
-    const title = `${p.code} · ${p.title} — Sai Sasir K`;
+    if (!p) return { meta: [{ title: "Project — Sai Sasir K" }] };
+    const title = `${p.title} — Sai Sasir K`;
     return {
       meta: [
         { title },
@@ -129,14 +225,14 @@ export const Route = createFileRoute("/projects/$slug")({
     <div className="min-h-screen flex items-center justify-center px-6">
       <div className="text-center">
         <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-stellar mb-4">
-          ⏵ SIGNAL LOST · 404
+          / 404
         </p>
-        <h1 className="text-3xl font-bold mb-2">Mission log not found</h1>
+        <h1 className="text-3xl font-bold mb-2">Project not found</h1>
         <Link
           to="/"
           className="inline-flex items-center gap-2 mt-6 font-mono text-xs uppercase tracking-[0.2em] text-stellar hover:underline"
         >
-          <ArrowLeft className="w-4 h-4" /> Return to base
+          <ArrowLeft className="w-4 h-4" /> Back to home
         </Link>
       </div>
     </div>
@@ -149,9 +245,9 @@ function ProjectPage() {
 
   return (
     <article className="relative pt-32 pb-20 overflow-hidden">
-      <div className="absolute inset-0 pointer-events-none opacity-60">
-        <Starfield density={100} />
-        <div className="absolute inset-0 grid-mission opacity-30" />
+      <div className="absolute inset-0 pointer-events-none opacity-50">
+        <Starfield density={80} />
+        <div className="absolute inset-0 grid-mission opacity-25" />
       </div>
 
       <div className="relative max-w-4xl mx-auto px-6 lg:px-10">
@@ -159,24 +255,31 @@ function ProjectPage() {
           to="/"
           className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground hover:text-stellar transition-colors mb-12"
         >
-          <ArrowLeft className="w-3.5 h-3.5" /> All Mission Logs
+          <ArrowLeft className="w-3.5 h-3.5" /> All Projects
         </Link>
 
-        <div className="flex items-center gap-3 mb-6">
+        <div className="flex items-center gap-3 mb-6 flex-wrap">
           <span className="font-mono text-[10px] tracking-[0.25em] text-stellar bg-stellar/10 border border-stellar/30 px-2 py-1">
-            ⏵ {project.code}
+            / {project.code}
           </span>
           <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
             {project.tag} · {project.year}
           </span>
         </div>
 
-        <h1 className="text-4xl md:text-6xl font-bold tracking-tight leading-[1.05] text-glow-soft">
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.05] text-glow-soft">
           {project.title}
         </h1>
-        <p className="mt-6 text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl">
+        <p className="mt-6 text-lg text-muted-foreground leading-relaxed max-w-2xl">
           {project.summary}
         </p>
+
+        {/* Meta strip */}
+        <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 gap-px bg-stellar/10 border border-stellar/20 max-w-2xl">
+          <MetaCell label="Role" value={project.role} />
+          <MetaCell label="Duration" value={project.duration} />
+          <MetaCell label="Year" value={project.year} />
+        </div>
 
         {project.links && (
           <div className="flex flex-wrap gap-3 mt-8">
@@ -199,32 +302,43 @@ function ProjectPage() {
           </div>
         )}
 
-        <div className="mt-14 border border-stellar/20 bg-deep overflow-hidden relative">
-          <img
-            src={project.image}
-            alt={project.title}
-            className="w-full h-auto object-cover opacity-90"
-          />
-          <div className="absolute inset-0 scanlines opacity-15 pointer-events-none" />
-          <div className="absolute top-3 left-3 right-3 flex justify-between font-mono text-[9px] uppercase tracking-[0.25em] text-stellar/70">
-            <span>⏵ ARCHIVE · {project.code}</span>
-            <span>{project.year}</span>
+        {/* Hero image — smaller, capped */}
+        <div className="mt-12 border border-stellar/20 bg-deep overflow-hidden relative max-w-3xl mx-auto">
+          <div className="aspect-[16/9] overflow-hidden">
+            <img
+              src={project.image}
+              alt={project.title}
+              className="w-full h-full object-cover opacity-90"
+            />
           </div>
+          <div className="absolute inset-0 scanlines opacity-10 pointer-events-none" />
         </div>
 
         <div className="grid lg:grid-cols-3 gap-10 mt-16">
-          <div className="lg:col-span-2 space-y-12">
+          <div className="lg:col-span-2 space-y-10">
             <div>
               <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-stellar mb-4">
-                ⏵ Mission Brief
+                / Overview
               </div>
               <p className="text-muted-foreground leading-relaxed text-base">
                 {project.overview}
               </p>
             </div>
+
+            {project.sections.map((s) => (
+              <div key={s.heading}>
+                <h2 className="text-xl md:text-2xl font-semibold mb-3">
+                  {s.heading}
+                </h2>
+                <p className="text-muted-foreground leading-relaxed text-base">
+                  {s.body}
+                </p>
+              </div>
+            ))}
+
             <div>
               <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-stellar mb-4">
-                ⏵ Operational Highlights
+                / Key Contributions
               </div>
               <ul className="space-y-3">
                 {project.highlights.map((h, i) => (
@@ -243,9 +357,9 @@ function ProjectPage() {
           </div>
 
           <aside className="space-y-4">
-            <div className="border border-border bg-background/60 p-5">
+            <div className="border border-border bg-background/60 p-5 sticky top-24">
               <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-stellar mb-4 pb-3 border-b border-border">
-                Onboard Systems
+                Tech Stack
               </div>
               <div className="flex flex-wrap gap-1.5">
                 {project.stack.map((s) => (
@@ -266,16 +380,29 @@ function ProjectPage() {
             to="/"
             className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground hover:text-stellar transition-colors"
           >
-            <ArrowLeft className="w-3.5 h-3.5" /> Return to base
+            <ArrowLeft className="w-3.5 h-3.5" /> Back to home
           </Link>
           <a
             href="/#contact"
             className="inline-flex items-center gap-2 bg-stellar px-5 py-2.5 text-xs font-mono uppercase tracking-[0.2em] text-background hover:bg-primary transition-all"
           >
-            Open Comms
+            Get in Touch
           </a>
         </div>
       </div>
     </article>
+  );
+}
+
+function MetaCell({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="bg-background/80 backdrop-blur-sm p-4">
+      <div className="font-mono text-[9px] uppercase tracking-[0.25em] text-muted-foreground mb-1.5">
+        {label}
+      </div>
+      <div className="font-mono text-xs text-foreground/90 leading-snug">
+        {value}
+      </div>
+    </div>
   );
 }
