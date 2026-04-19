@@ -18,31 +18,34 @@ export function Section({
   className?: string;
 }) {
   return (
-    <section id={id} className={`relative scroll-mt-20 py-24 lg:py-32 ${className}`}>
-      <div className="max-w-7xl mx-auto px-6 lg:px-10">
-        <div className="max-w-2xl mb-16">
-          <div className="flex items-center gap-3 mb-5">
-            {index && (
-              <span className="font-mono text-[10px] text-stellar tracking-[0.25em]">
-                [{index}]
-              </span>
-            )}
-            {eyebrow && (
-              <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-                {eyebrow}
+    <section id={id} className={`relative scroll-mt-20 py-28 lg:py-36 ${className}`}>
+      <div className="max-w-6xl mx-auto px-6 lg:px-8">
+        <header className="grid lg:grid-cols-12 gap-8 mb-16 lg:mb-20">
+          <div className="lg:col-span-3">
+            <div className="flex items-center gap-3">
+              {index && (
+                <span className="font-mono text-[11px] text-muted-foreground tabular-nums">
+                  {index}
+                </span>
+              )}
+              {eyebrow && (
+                <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+                  {eyebrow}
+                </p>
+              )}
+            </div>
+          </div>
+          <div className="lg:col-span-9">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight leading-[1.1] text-foreground">
+              {title}
+            </h2>
+            {description && (
+              <p className="mt-5 text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl">
+                {description}
               </p>
             )}
-            <span className="flex-1 h-px bg-gradient-to-r from-stellar/40 to-transparent" />
           </div>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
-            {title}
-          </h2>
-          {description && (
-            <p className="mt-5 text-base md:text-lg text-muted-foreground leading-relaxed">
-              {description}
-            </p>
-          )}
-        </div>
+        </header>
         {children}
       </div>
     </section>
