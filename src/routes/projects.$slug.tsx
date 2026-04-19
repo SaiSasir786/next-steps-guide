@@ -223,13 +223,15 @@ export const Route = createFileRoute("/projects/$slug")({
   notFoundComponent: () => (
     <div className="min-h-screen flex items-center justify-center px-6">
       <div className="text-center">
-        <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-stellar mb-4">
-          / 404
+        <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground mb-4">
+          404
         </p>
-        <h1 className="text-3xl font-bold mb-2">Project not found</h1>
+        <h1 className="text-3xl font-medium tracking-tight mb-4">
+          Project not found
+        </h1>
         <Link
           to="/"
-          className="inline-flex items-center gap-2 mt-6 font-mono text-xs uppercase tracking-[0.2em] text-stellar hover:underline"
+          className="inline-flex items-center gap-2 mt-2 text-sm text-foreground hover:text-stellar transition-colors link-underline"
         >
           <ArrowLeft className="w-4 h-4" /> Back to home
         </Link>
@@ -243,30 +245,26 @@ function ProjectPage() {
   const { project } = Route.useLoaderData() as { project: Project };
 
   return (
-    <article className="relative pt-32 pb-20 overflow-hidden">
-      <div className="absolute inset-0 pointer-events-none opacity-50">
-        <Starfield density={80} />
-        <div className="absolute inset-0 grid-mission opacity-25" />
-      </div>
+    <article className="relative pt-32 pb-24">
+      <div className="absolute inset-0 ambient-top pointer-events-none" />
 
-      <div className="relative max-w-4xl mx-auto px-6 lg:px-10">
+      <div className="relative max-w-4xl mx-auto px-6 lg:px-8">
         <Link
           to="/"
-          className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground hover:text-stellar transition-colors mb-12"
+          className="inline-flex items-center gap-2 text-[12px] text-muted-foreground hover:text-foreground transition-colors mb-14"
         >
-          <ArrowLeft className="w-3.5 h-3.5" /> All Projects
+          <ArrowLeft className="w-3.5 h-3.5" /> All projects
         </Link>
 
-        <div className="flex items-center gap-3 mb-6 flex-wrap">
-          <span className="font-mono text-[10px] tracking-[0.25em] text-stellar bg-stellar/10 border border-stellar/30 px-2 py-1">
-            / {project.code}
-          </span>
-          <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
-            {project.tag} · {project.year}
-          </span>
+        <div className="flex items-center gap-3 mb-6 text-[11px] text-muted-foreground font-mono">
+          <span className="tabular-nums">/ {project.code}</span>
+          <span className="w-1 h-1 rounded-full bg-border-bright" />
+          <span>{project.tag}</span>
+          <span className="w-1 h-1 rounded-full bg-border-bright" />
+          <span className="tabular-nums">{project.year}</span>
         </div>
 
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.05] text-glow-soft">
+        <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-normal tracking-[-0.02em] leading-[1.05] text-foreground">
           {project.title}
         </h1>
         <p className="mt-6 text-lg text-muted-foreground leading-relaxed max-w-2xl">
@@ -274,7 +272,7 @@ function ProjectPage() {
         </p>
 
         {/* Meta strip */}
-        <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 gap-px bg-stellar/10 border border-stellar/20 max-w-2xl">
+        <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 gap-px bg-border rounded-xl overflow-hidden border border-border max-w-2xl">
           <MetaCell label="Role" value={project.role} />
           <MetaCell label="Duration" value={project.duration} />
           <MetaCell label="Year" value={project.year} />
@@ -288,12 +286,12 @@ function ProjectPage() {
                 href={l.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hud-corners inline-flex items-center gap-2 px-5 py-2.5 text-xs font-mono uppercase tracking-[0.2em] border border-stellar/30 hover:border-stellar hover:bg-stellar/5 transition-all"
+                className="inline-flex items-center gap-2 rounded-full border border-border-bright px-5 py-2.5 text-sm text-foreground hover:bg-surface transition-colors"
               >
                 {l.icon === "github" ? (
-                  <Github className="w-3.5 h-3.5" />
+                  <Github className="w-4 h-4" />
                 ) : (
-                  <ExternalLink className="w-3.5 h-3.5" />
+                  <ExternalLink className="w-4 h-4" />
                 )}
                 {l.label}
               </a>
@@ -301,32 +299,31 @@ function ProjectPage() {
           </div>
         )}
 
-        {/* Hero image — smaller, capped */}
-        <div className="mt-12 border border-stellar/20 bg-deep overflow-hidden relative max-w-3xl mx-auto">
+        {/* Hero image — capped, refined frame */}
+        <div className="mt-14 rounded-xl border border-border bg-deep overflow-hidden">
           <div className="aspect-[16/9] overflow-hidden">
             <img
               src={project.image}
               alt={project.title}
-              className="w-full h-full object-cover opacity-90"
+              className="w-full h-full object-cover opacity-95"
             />
           </div>
-          <div className="absolute inset-0 scanlines opacity-10 pointer-events-none" />
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-10 mt-16">
-          <div className="lg:col-span-2 space-y-10">
+        <div className="grid lg:grid-cols-3 gap-12 mt-20">
+          <div className="lg:col-span-2 space-y-12">
             <div>
-              <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-stellar mb-4">
-                / Overview
-              </div>
-              <p className="text-muted-foreground leading-relaxed text-base">
+              <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground mb-4">
+                Overview
+              </p>
+              <p className="text-foreground/90 leading-relaxed text-base md:text-lg">
                 {project.overview}
               </p>
             </div>
 
             {project.sections.map((s) => (
               <div key={s.heading}>
-                <h2 className="text-xl md:text-2xl font-semibold mb-3">
+                <h2 className="text-2xl md:text-3xl font-medium tracking-tight mb-4 text-foreground">
                   {s.heading}
                 </h2>
                 <p className="text-muted-foreground leading-relaxed text-base">
@@ -336,16 +333,13 @@ function ProjectPage() {
             ))}
 
             <div>
-              <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-stellar mb-4">
-                / Key Contributions
-              </div>
-              <ul className="space-y-3">
+              <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground mb-5">
+                Key Contributions
+              </p>
+              <ul className="space-y-4">
                 {project.highlights.map((h, i) => (
-                  <li
-                    key={h}
-                    className="flex gap-4 text-muted-foreground border-l border-stellar/30 pl-5 py-1"
-                  >
-                    <span className="font-mono text-[10px] text-stellar/60 mt-1 flex-shrink-0">
+                  <li key={h} className="flex gap-5 text-foreground/90">
+                    <span className="font-mono text-[11px] text-stellar tabular-nums mt-1.5 flex-shrink-0 w-6">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <span className="leading-relaxed">{h}</span>
@@ -356,15 +350,15 @@ function ProjectPage() {
           </div>
 
           <aside className="space-y-4">
-            <div className="border border-border bg-background/60 p-5 sticky top-24">
-              <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-stellar mb-4 pb-3 border-b border-border">
+            <div className="rounded-xl border border-border bg-surface/40 p-6 sticky top-24">
+              <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground mb-4 pb-3 border-b border-border">
                 Tech Stack
-              </div>
+              </p>
               <div className="flex flex-wrap gap-1.5">
                 {project.stack.map((s) => (
                   <span
                     key={s}
-                    className="font-mono text-[10px] uppercase tracking-wider px-2 py-1 border border-border text-foreground/90"
+                    className="text-xs px-2.5 py-1 rounded-md bg-surface border border-border text-foreground/85"
                   >
                     {s}
                   </span>
@@ -374,18 +368,19 @@ function ProjectPage() {
           </aside>
         </div>
 
-        <div className="mt-20 pt-10 border-t border-border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="mt-24 pt-10 border-t border-border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <Link
             to="/"
-            className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground hover:text-stellar transition-colors"
+            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors link-underline"
           >
-            <ArrowLeft className="w-3.5 h-3.5" /> Back to home
+            <ArrowLeft className="w-4 h-4" /> Back to home
           </Link>
           <a
             href="/#contact"
-            className="inline-flex items-center gap-2 bg-stellar px-5 py-2.5 text-xs font-mono uppercase tracking-[0.2em] text-background hover:bg-primary transition-all"
+            className="inline-flex items-center gap-2 rounded-full bg-foreground text-background px-5 py-2.5 text-sm font-medium hover:bg-foreground/90 transition-colors"
           >
-            Get in Touch
+            Get in touch
+            <ArrowUpRight className="w-4 h-4" />
           </a>
         </div>
       </div>
@@ -395,13 +390,14 @@ function ProjectPage() {
 
 function MetaCell({ label, value }: { label: string; value: string }) {
   return (
-    <div className="bg-background/80 backdrop-blur-sm p-4">
-      <div className="font-mono text-[9px] uppercase tracking-[0.25em] text-muted-foreground mb-1.5">
+    <div className="bg-background p-4">
+      <div className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground mb-1.5">
         {label}
       </div>
-      <div className="font-mono text-xs text-foreground/90 leading-snug">
+      <div className="text-[13px] text-foreground/90 leading-snug">
         {value}
       </div>
     </div>
   );
 }
+
