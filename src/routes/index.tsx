@@ -14,7 +14,7 @@ import { Section } from "@/components/Section";
 import { Starfield } from "@/components/Starfield";
 import { BootSequence } from "@/components/BootSequence";
 import { StatCounter } from "@/components/StatCounter";
-import portrait from "@/assets/portrait.jpg";
+
 import projectChatbot from "@/assets/project-chatbot.jpg";
 import projectAutovista from "@/assets/project-autovista.jpg";
 import projectFire from "@/assets/firefighter.jpg";
@@ -123,36 +123,6 @@ const stack = [
 
 /* ===== Hero supporting components (declared before Home so the route code-splitter keeps them in the same chunk) ===== */
 
-function PortraitFrame() {
-  return (
-    <div className="relative w-[260px] sm:w-[300px] lg:w-[340px] aspect-[4/5] animate-drift">
-      <div className="absolute -inset-6 bg-stellar/10 blur-3xl rounded-full" />
-
-      <span className="absolute -top-2 -left-2 w-5 h-5 border-t-2 border-l-2 border-stellar" />
-      <span className="absolute -top-2 -right-2 w-5 h-5 border-t-2 border-r-2 border-stellar" />
-      <span className="absolute -bottom-2 -left-2 w-5 h-5 border-b-2 border-l-2 border-stellar" />
-      <span className="absolute -bottom-2 -right-2 w-5 h-5 border-b-2 border-r-2 border-stellar" />
-
-      <div className="relative w-full h-full overflow-hidden rounded-lg border border-border-bright">
-        <img
-          src={portrait}
-          alt="Sai Sasir Kosuri"
-          width={680}
-          height={850}
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
-        <div className="absolute inset-x-0 bottom-3 h-px bg-gradient-to-r from-transparent via-beacon/60 to-transparent" />
-      </div>
-
-      <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-2 rounded-full bg-background border border-border-bright px-3 py-1.5 text-[10px] font-mono uppercase tracking-[0.2em] text-muted-foreground whitespace-nowrap">
-        <span className="w-1.5 h-1.5 rounded-full bg-stellar animate-pulse-soft" />
-        Hyderabad · IN
-      </div>
-    </div>
-  );
-}
-
 function SocialIcon({
   href,
   icon: Icon,
@@ -229,18 +199,9 @@ function Home() {
         <div className="absolute inset-0 ambient-top pointer-events-none" />
 
         <div className="relative max-w-6xl mx-auto px-6 lg:px-8 w-full">
-          {/* Top row: terminal boot (left) + portrait (right) */}
-          <div className="grid lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-            <div className="lg:col-span-7 order-2 lg:order-1 animate-fade-up">
-              <BootSequence />
-            </div>
-
-            <div
-              className="lg:col-span-5 order-1 lg:order-2 animate-fade-up flex justify-center lg:justify-end"
-              style={{ animationDelay: "0.05s" }}
-            >
-              <PortraitFrame />
-            </div>
+          {/* Terminal boot intro */}
+          <div className="max-w-2xl mx-auto animate-fade-up">
+            <BootSequence />
           </div>
 
           {/* Centerpiece: name + role */}
