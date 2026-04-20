@@ -10,15 +10,21 @@ const nav = [
 ];
 
 function useUTC() {
-  const [t, setT] = useState(() => new Date());
+  // Start as null on both server and client to avoid hydration mismatch.
+  const [t, setT] = useState<string | null>(null);
   useEffect(() => {
-    const id = setInterval(() => setT(new Date()), 1000);
+    const fmt = () => {
+      const d = new Date();
+      const hh = String(d.getUTCHours()).padStart(2, "0");
+      const mm = String(d.getUTCMinutes()).padStart(2, "0");
+      const ss = String(d.getUTCSeconds()).padStart(2, "0");
+      return `${hh}:${mm}:${ss} UTC`;
+    };
+    setT(fmt());
+    const id = setInterval(() => setT(fmt()), 1000);
     return () => clearInterval(id);
   }, []);
-  const hh = String(t.getUTCHours()).padStart(2, "0");
-  const mm = String(t.getUTCMinutes()).padStart(2, "0");
-  const ss = String(t.getUTCSeconds()).padStart(2, "0");
-  return `${hh}:${mm}:${ss} UTC`;
+  return t;
 }
 
 export function SiteHeader() {
@@ -71,10 +77,21 @@ export function SiteHeader() {
         </nav>
 
         <div className="hidden md:flex items-center gap-3">
-          <span className="hidden lg:inline-flex items-center gap-2 text-[10px] font-mono tracking-[0.16em] text-muted-foreground">
+          <span
+            className="hidden lg:inline-flex items-center gap-2 text-[10px] font-mono tracking-[0.16em] text-muted-foreground min-w-[92px]"
+            suppressHydrationWarning
+          >
             <span className="w-1 h-1 rounded-full bg-beacon animate-pulse-soft" />
-            {utc}
+            {utc ?? "--:--:-- UTC"}
           </span>
+          <a
+            href="/resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden xl:inline-flex items-center gap-2 rounded-full border border-border-bright px-4 py-1.5 text-[12px] text-foreground hover:bg-surface transition-colors"
+          >
+            Resume
+          </a>
           <a
             href="/#contact"
             className="inline-flex items-center gap-2 rounded-full bg-foreground text-background px-4 py-1.5 text-[12px] font-medium hover:bg-foreground/90 transition-colors"

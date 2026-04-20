@@ -8,9 +8,13 @@ import {
   GraduationCap,
   Award,
   Briefcase,
+  Download,
 } from "lucide-react";
 import { Section } from "@/components/Section";
 import { Starfield } from "@/components/Starfield";
+import { BootSequence } from "@/components/BootSequence";
+import { StatCounter } from "@/components/StatCounter";
+import portrait from "@/assets/portrait.jpg";
 import projectChatbot from "@/assets/project-chatbot.jpg";
 import projectAutovista from "@/assets/project-autovista.jpg";
 import projectFire from "@/assets/firefighter.jpg";
@@ -121,98 +125,116 @@ function Home() {
   return (
     <>
       {/* ============ HERO ============ */}
-      <section className="relative min-h-[94vh] flex items-center pt-32 pb-20 overflow-hidden cosmos-bg">
+      <section className="relative min-h-[100vh] flex items-center pt-28 pb-16 overflow-hidden cosmos-bg">
         {/* Layered backdrop: stars → grid → ambient glow */}
-        <div className="absolute inset-0 [mask-image:radial-gradient(ellipse_80%_70%_at_50%_30%,black,transparent_85%)]">
-          <Starfield density={160} />
+        <div className="absolute inset-0 [mask-image:radial-gradient(ellipse_85%_75%_at_50%_30%,black,transparent_90%)]">
+          <Starfield density={170} />
         </div>
-        <div className="absolute inset-0 grid-hairline opacity-40 pointer-events-none [mask-image:radial-gradient(ellipse_70%_60%_at_50%_30%,black,transparent_75%)]" />
+        <div className="absolute inset-0 grid-hairline opacity-30 pointer-events-none [mask-image:radial-gradient(ellipse_70%_60%_at_50%_30%,black,transparent_75%)]" />
         <div className="absolute inset-0 ambient-top pointer-events-none" />
 
         <div className="relative max-w-6xl mx-auto px-6 lg:px-8 w-full">
-          {/* HUD strip — coordinates / role / status */}
-          <div
-            className="hidden md:flex items-center gap-5 mb-12 text-[10px] font-mono tracking-[0.2em] uppercase text-muted-foreground animate-fade-up"
-          >
-            <span className="flex items-center gap-2">
-              <span className="w-1 h-1 rounded-full bg-stellar" />
-              17.385° N · 78.486° E
-            </span>
-            <span className="h-px w-8 bg-border" />
-            <span>Gen-AI · ML Engineer</span>
-            <span className="h-px w-8 bg-border" />
-            <span className="flex items-center gap-2">
-              <span className="w-1 h-1 rounded-full bg-beacon animate-pulse-soft" />
-              Currently available
-            </span>
+          {/* Top row: terminal boot (left) + portrait (right) */}
+          <div className="grid lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+            <div className="lg:col-span-7 order-2 lg:order-1 animate-fade-up">
+              <BootSequence />
+            </div>
+
+            <div
+              className="lg:col-span-5 order-1 lg:order-2 animate-fade-up flex justify-center lg:justify-end"
+              style={{ animationDelay: "0.05s" }}
+            >
+              <PortraitFrame />
+            </div>
           </div>
 
-          <div className="grid lg:grid-cols-12 gap-10 items-end">
-            <div className="lg:col-span-9">
-              <div
-                className="md:hidden inline-flex items-center gap-2.5 mb-8 animate-fade-up rounded-full border border-border bg-surface/40 backdrop-blur-sm pl-2 pr-4 py-1.5"
-              >
-                <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-stellar/15">
-                  <span className="w-1.5 h-1.5 rounded-full bg-stellar animate-pulse-soft" />
-                </span>
-                <span className="text-[12px] text-foreground/80">
-                  Available for Gen-AI &amp; ML roles
-                </span>
-              </div>
+          {/* Centerpiece: name + role */}
+          <div className="mt-16 lg:mt-20 text-center">
+            <p
+              className="text-[10px] md:text-[11px] font-mono uppercase tracking-[0.4em] text-muted-foreground mb-6 animate-fade-up"
+              style={{ animationDelay: "0.4s" }}
+            >
+              Generative AI · ML Engineer
+            </p>
 
-              <h1
-                className="font-serif font-normal text-[44px] sm:text-6xl md:text-7xl lg:text-[92px] leading-[1.02] tracking-[-0.025em] text-foreground animate-fade-up"
-                style={{ animationDelay: "0.05s" }}
-              >
-                Building intelligent
-                <br />
-                systems that <em className="italic font-serif text-stellar">think</em>,
-                <br />
-                reason, and ship.
-              </h1>
+            <h1
+              className="font-serif font-normal text-[52px] sm:text-7xl md:text-8xl lg:text-[112px] leading-[0.98] tracking-[-0.03em] text-foreground animate-fade-up"
+              style={{ animationDelay: "0.5s" }}
+            >
+              Sai Sasir{" "}
+              <em className="italic font-serif text-stellar">Kosuri</em>
+            </h1>
 
-              <div
-                className="mt-10 max-w-2xl animate-fade-up"
-                style={{ animationDelay: "0.15s" }}
-              >
-                <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
-                  I’m{" "}
-                  <span className="text-foreground">Sai Sasir Kosuri</span> — a
-                  Generative AI &amp; Machine Learning Engineer. I design and
-                  ship production AI: large language models, retrieval-augmented
-                  systems, and autonomous agents — grounded in a background of
-                  robotics and full-stack engineering.
-                </p>
-              </div>
-
-              <div
-                className="mt-12 flex flex-wrap items-center gap-3 animate-fade-up"
-                style={{ animationDelay: "0.25s" }}
-              >
-                <a
-                  href="#work"
-                  className="group inline-flex items-center gap-2 rounded-full bg-foreground text-background px-6 py-3 text-sm font-medium hover:bg-foreground/90 transition-colors"
-                >
-                  View selected work
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-                </a>
-                <a
-                  href="#contact"
-                  className="inline-flex items-center gap-2 rounded-full border border-border-bright px-6 py-3 text-sm font-medium text-foreground hover:bg-surface transition-colors"
-                >
-                  Get in touch
-                </a>
-              </div>
+            <div className="flex justify-center mt-7 animate-fade-up" style={{ animationDelay: "0.6s" }}>
+              <span className="block w-12 h-[2px] bg-stellar" />
             </div>
 
-            <div className="lg:col-span-3 hidden lg:block animate-fade-up" style={{ animationDelay: "0.35s" }}>
-              <div className="border-l border-border pl-6 space-y-7">
-                <Stat label="Experience" value="3+ yrs" />
-                <Stat label="Education" value="B.Tech" sub="AI &amp; Robotics, VIT" />
-                <Stat label="Certified" value="AWS" sub="Cloud Practitioner" />
-                <Stat label="Based in" value="India" sub="Open to remote" />
+            <p
+              className="mt-8 max-w-2xl mx-auto text-base md:text-lg text-muted-foreground leading-relaxed animate-fade-up"
+              style={{ animationDelay: "0.7s" }}
+            >
+              B.Tech AI &amp; Robotics · VIT (CGPA 8.20) — I design and ship
+              production AI systems: large language models, retrieval-augmented
+              pipelines, and autonomous agents.
+            </p>
+
+            {/* Skill chips — Vallabhaneni-style */}
+            <div
+              className="mt-9 flex flex-wrap justify-center gap-2 animate-fade-up"
+              style={{ animationDelay: "0.8s" }}
+            >
+              {["LLMs & RAG", "AI Agents", "PyTorch · TensorFlow", "AWS · Docker"].map((s) => (
+                <span
+                  key={s}
+                  className="text-[12px] px-3.5 py-1.5 rounded-full border border-border bg-surface/40 backdrop-blur-sm text-foreground/85"
+                >
+                  {s}
+                </span>
+              ))}
+            </div>
+
+            {/* CTAs */}
+            <div
+              className="mt-12 flex flex-wrap justify-center items-center gap-3 animate-fade-up"
+              style={{ animationDelay: "0.9s" }}
+            >
+              <a
+                href="/resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-2 rounded-full bg-stellar text-primary-foreground px-6 py-3 text-sm font-medium hover:bg-stellar/90 transition-colors"
+              >
+                <Download className="w-4 h-4" />
+                Download Resume
+              </a>
+              <a
+                href="#work"
+                className="group inline-flex items-center gap-2 rounded-full border border-border-bright bg-surface/40 backdrop-blur-sm px-6 py-3 text-sm font-medium text-foreground hover:bg-surface transition-colors"
+              >
+                View selected work
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+              </a>
+              <div className="flex items-center gap-1.5 ml-1">
+                <SocialIcon href="https://github.com/saisasir" icon={Github} label="GitHub" />
+                <SocialIcon
+                  href="https://www.linkedin.com/in/saisasirkosuri/"
+                  icon={Linkedin}
+                  label="LinkedIn"
+                />
+                <SocialIcon href="mailto:saisasir99@gmail.com" icon={Mail} label="Email" />
               </div>
             </div>
+          </div>
+
+          {/* Stat counter rail — Aman Garg pattern */}
+          <div
+            className="mt-20 lg:mt-28 grid grid-cols-2 md:grid-cols-4 gap-px bg-border rounded-2xl overflow-hidden border border-border bg-surface/30 backdrop-blur-sm animate-fade-up"
+            style={{ animationDelay: "1s" }}
+          >
+            <BigStat value={3} suffix="+" label="Years building" sub="AI &amp; full-stack" />
+            <BigStat value={10} suffix="+" label="Production projects" sub="Across AI, web, robotics" />
+            <BigStat value={8.2} suffix=" / 10" label="CGPA" sub="VIT — AI &amp; Robotics" decimals={1} />
+            <BigStat value={1} label="Cloud certification" sub="AWS Cloud Practitioner" />
           </div>
         </div>
       </section>
@@ -529,5 +551,100 @@ function ContactLink({
       <Icon className="w-4 h-4" />
       <span>{children}</span>
     </a>
+  );
+}
+
+/* ===== Hero supporting components ===== */
+
+function PortraitFrame() {
+  return (
+    <div className="relative w-[260px] sm:w-[300px] lg:w-[340px] aspect-[4/5] animate-drift">
+      <div className="absolute -inset-6 bg-stellar/10 blur-3xl rounded-full" />
+
+      <span className="absolute -top-2 -left-2 w-5 h-5 border-t-2 border-l-2 border-stellar" />
+      <span className="absolute -top-2 -right-2 w-5 h-5 border-t-2 border-r-2 border-stellar" />
+      <span className="absolute -bottom-2 -left-2 w-5 h-5 border-b-2 border-l-2 border-stellar" />
+      <span className="absolute -bottom-2 -right-2 w-5 h-5 border-b-2 border-r-2 border-stellar" />
+
+      <div className="relative w-full h-full overflow-hidden rounded-lg border border-border-bright">
+        <img
+          src={portrait}
+          alt="Sai Sasir Kosuri"
+          width={680}
+          height={850}
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
+        <div className="absolute inset-x-0 bottom-3 h-px bg-gradient-to-r from-transparent via-beacon/60 to-transparent" />
+      </div>
+
+      <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-2 rounded-full bg-background border border-border-bright px-3 py-1.5 text-[10px] font-mono uppercase tracking-[0.2em] text-muted-foreground whitespace-nowrap">
+        <span className="w-1.5 h-1.5 rounded-full bg-stellar animate-pulse-soft" />
+        Hyderabad · IN
+      </div>
+    </div>
+  );
+}
+
+function SocialIcon({
+  href,
+  icon: Icon,
+  label,
+}: {
+  href: string;
+  icon: React.ComponentType<{ className?: string }>;
+  label: string;
+}) {
+  const external = href.startsWith("http");
+  return (
+    <a
+      href={href}
+      aria-label={label}
+      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      className="w-10 h-10 rounded-full border border-border bg-surface/30 backdrop-blur-sm flex items-center justify-center text-muted-foreground hover:text-stellar hover:border-stellar/40 transition-colors"
+    >
+      <Icon className="w-4 h-4" />
+    </a>
+  );
+}
+
+function BigStat({
+  value,
+  suffix = "",
+  label,
+  sub,
+  decimals = 0,
+}: {
+  value: number;
+  suffix?: string;
+  label: string;
+  sub?: string;
+  decimals?: number;
+}) {
+  return (
+    <div className="bg-background/60 p-6 lg:p-7 hover:bg-surface/40 transition-colors">
+      <div className="font-serif text-4xl lg:text-5xl text-foreground tracking-tight tabular-nums">
+        {decimals > 0 ? (
+          <>
+            <StatCounter value={Math.floor(value)} />
+            <span className="text-stellar">
+              .{Math.round((value - Math.floor(value)) * Math.pow(10, decimals))}
+            </span>
+            {suffix}
+          </>
+        ) : (
+          <StatCounter value={value} suffix={suffix} />
+        )}
+      </div>
+      <p className="mt-3 text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+        {label}
+      </p>
+      {sub && (
+        <p
+          className="mt-1.5 text-[12px] text-muted-foreground/80"
+          dangerouslySetInnerHTML={{ __html: sub }}
+        />
+      )}
+    </div>
   );
 }
