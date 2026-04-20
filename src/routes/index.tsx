@@ -14,7 +14,7 @@ import { Section } from "@/components/Section";
 import { Starfield } from "@/components/Starfield";
 import { BootSequence } from "@/components/BootSequence";
 import { StatCounter } from "@/components/StatCounter";
-import portrait from "@/assets/portrait.jpg";
+
 import projectChatbot from "@/assets/project-chatbot.jpg";
 import projectAutovista from "@/assets/project-autovista.jpg";
 import projectFire from "@/assets/firefighter.jpg";
