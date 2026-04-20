@@ -229,18 +229,9 @@ function Home() {
         <div className="absolute inset-0 ambient-top pointer-events-none" />
 
         <div className="relative max-w-6xl mx-auto px-6 lg:px-8 w-full">
-          {/* Top row: terminal boot (left) + portrait (right) */}
-          <div className="grid lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-            <div className="lg:col-span-7 order-2 lg:order-1 animate-fade-up">
-              <BootSequence />
-            </div>
-
-            <div
-              className="lg:col-span-5 order-1 lg:order-2 animate-fade-up flex justify-center lg:justify-end"
-              style={{ animationDelay: "0.05s" }}
-            >
-              <PortraitFrame />
-            </div>
+          {/* Terminal boot intro */}
+          <div className="max-w-2xl mx-auto animate-fade-up">
+            <BootSequence />
           </div>
 
           {/* Centerpiece: name + role */}
