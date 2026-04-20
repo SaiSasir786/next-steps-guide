@@ -5,9 +5,11 @@
 @custom-variant dark (&:is(.dark *));
 
 /* ================================================================
-   Editorial dark portfolio — Gen-AI / ML Engineer
-   Inspired by NVIDIA Research, Anthropic, Stripe Press, Linear.
-   Restrained motion · refined typography · graphite + signal amber
+   Sai Sasir Kosuri — Gen-AI / ML Engineer Portfolio
+   Aesthetic: Interstellar × Project Hail Mary
+   - Deep void blacks, stellar gold, faint cyan beacon
+   - Editorial typography, hairline grids, slow parallax stars
+   - Inspired by NASA mission sites, Anthropic, Stripe Press, Linear
    ================================================================ */
 
 @theme inline {
@@ -44,51 +46,57 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-stellar: var(--stellar);
+  --color-beacon: var(--beacon);
   --color-deep: var(--deep);
+  --color-void: var(--void);
   --color-hairline: var(--hairline);
 }
 
 :root {
   --radius: 0.25rem;
 
-  /* Graphite palette — closer to Anthropic / NVIDIA dark */
-  --background: oklch(0.13 0.005 260);
-  --deep: oklch(0.09 0.004 260);
-  --foreground: oklch(0.96 0.005 80);
+  /* Void palette — deeper than graphite, true space-black */
+  --void: oklch(0.06 0.005 250);
+  --deep: oklch(0.085 0.006 250);
+  --background: oklch(0.11 0.007 250);
+  --foreground: oklch(0.97 0.005 90);
 
-  --surface: oklch(0.16 0.006 260);
-  --surface-hover: oklch(0.19 0.007 260);
-  --card: oklch(0.15 0.005 260);
-  --card-foreground: oklch(0.96 0.005 80);
-  --popover: oklch(0.15 0.005 260);
-  --popover-foreground: oklch(0.96 0.005 80);
+  --surface: oklch(0.145 0.008 250);
+  --surface-hover: oklch(0.18 0.009 250);
+  --card: oklch(0.135 0.007 250);
+  --card-foreground: oklch(0.97 0.005 90);
+  --popover: oklch(0.135 0.007 250);
+  --popover-foreground: oklch(0.97 0.005 90);
 
-  /* Signal accent — warm amber, used sparingly */
-  --primary: oklch(0.78 0.13 65);
-  --primary-foreground: oklch(0.13 0.005 260);
-  --stellar: oklch(0.82 0.12 70);
+  /* Stellar gold — warm star-light, used like a highlighter */
+  --stellar: oklch(0.84 0.13 75);
+  --primary: oklch(0.82 0.13 70);
+  --primary-foreground: oklch(0.08 0.005 250);
 
-  --accent: oklch(0.7 0.15 50);
-  --accent-foreground: oklch(0.13 0.005 260);
+  /* Beacon cyan — cold, distant, used very sparingly (status dots, fine accents) */
+  --beacon: oklch(0.78 0.11 215);
 
-  --secondary: oklch(0.2 0.006 260);
-  --secondary-foreground: oklch(0.96 0.005 80);
+  --accent: oklch(0.72 0.15 55);
+  --accent-foreground: oklch(0.08 0.005 250);
 
-  --muted: oklch(0.18 0.006 260);
-  --muted-foreground: oklch(0.62 0.008 260);
+  --secondary: oklch(0.18 0.008 250);
+  --secondary-foreground: oklch(0.97 0.005 90);
+
+  --muted: oklch(0.16 0.008 250);
+  --muted-foreground: oklch(0.62 0.01 250);
 
   --destructive: oklch(0.62 0.2 25);
-  --destructive-foreground: oklch(0.96 0.005 80);
+  --destructive-foreground: oklch(0.97 0.005 90);
 
   --border: oklch(1 0 0 / 6%);
-  --border-bright: oklch(1 0 0 / 12%);
+  --border-bright: oklch(1 0 0 / 13%);
   --hairline: oklch(1 0 0 / 8%);
-  --input: oklch(0.2 0.006 260);
-  --ring: oklch(0.78 0.13 65);
+  --input: oklch(0.18 0.008 250);
+  --ring: oklch(0.84 0.13 75);
 
   --shadow-elevated:
     0 1px 0 0 oklch(1 0 0 / 0.04) inset,
-    0 20px 50px -20px oklch(0 0 0 / 0.6);
+    0 24px 60px -24px oklch(0 0 0 / 0.7);
 }
 
 .dark {
@@ -101,7 +109,7 @@
   }
   html {
     scroll-behavior: smooth;
-    background: var(--deep);
+    background: var(--void);
   }
   body {
     background-color: var(--color-background);
@@ -123,11 +131,11 @@
     color: var(--background);
   }
   ::-webkit-scrollbar { width: 10px; height: 10px; }
-  ::-webkit-scrollbar-track { background: var(--deep); }
+  ::-webkit-scrollbar-track { background: var(--void); }
   ::-webkit-scrollbar-thumb {
     background: oklch(1 0 0 / 0.08);
     border-radius: 8px;
-    border: 2px solid var(--deep);
+    border: 2px solid var(--void);
   }
   ::-webkit-scrollbar-thumb:hover { background: oklch(1 0 0 / 0.16); }
 }
@@ -137,8 +145,11 @@
   .font-mono { font-family: var(--font-mono); }
 
   .text-stellar { color: var(--stellar); }
+  .text-beacon { color: var(--beacon); }
+  .bg-stellar { background-color: var(--stellar); }
+  .bg-beacon { background-color: var(--beacon); }
 
-  /* Signal accent — used like a highlighter, not a theme */
+  /* Stellar accent bar — subtle highlighter line */
   .accent-bar {
     position: relative;
   }
@@ -153,14 +164,28 @@
     transform: translateY(-50%);
   }
 
-  /* Soft top glow — single, subtle */
+  /* Cinematic horizon glow — Endurance-style top light */
   .ambient-top {
     background:
       radial-gradient(
-        ellipse 60% 40% at 50% 0%,
-        oklch(0.78 0.13 65 / 0.08),
+        ellipse 70% 50% at 50% 0%,
+        oklch(0.84 0.13 75 / 0.10),
         transparent 70%
+      ),
+      radial-gradient(
+        ellipse 40% 30% at 20% 10%,
+        oklch(0.78 0.11 215 / 0.05),
+        transparent 65%
       );
+  }
+
+  /* Deep-space radial — used behind hero */
+  .cosmos-bg {
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 0%, oklch(0.84 0.13 75 / 0.08), transparent 65%),
+      radial-gradient(ellipse 50% 40% at 85% 20%, oklch(0.78 0.11 215 / 0.06), transparent 70%),
+      radial-gradient(ellipse 60% 50% at 10% 80%, oklch(0.84 0.13 75 / 0.04), transparent 70%),
+      var(--background);
   }
 
   /* Hairline grid — extremely subtle, editorial */
@@ -171,15 +196,31 @@
     background-size: 96px 96px;
   }
 
-  /* Noise overlay — restores film texture without being heavy */
+  /* Faint film noise overlay */
   .noise::after {
     content: '';
     position: absolute;
     inset: 0;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.4 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    opacity: 0.025;
+    opacity: 0.03;
     pointer-events: none;
     mix-blend-mode: overlay;
+  }
+
+  /* Vignette — cinematic edges */
+  .vignette {
+    position: relative;
+  }
+  .vignette::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse at center,
+      transparent 50%,
+      oklch(0.06 0.005 250 / 0.6) 100%
+    );
+    pointer-events: none;
   }
 
   /* Hover lift used on cards */
@@ -199,9 +240,18 @@
     transition: background-size 0.4s ease;
   }
   .link-underline:hover { background-size: 100% 1px; }
+
+  /* Mono micro-label used in HUD strips */
+  .label-mono {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
+  }
 }
 
-/* Animations — restrained, slow, easing matters */
+/* Animations */
 @keyframes fade-up {
   from { opacity: 0; transform: translateY(14px); }
   to { opacity: 1; transform: translateY(0); }
@@ -218,8 +268,13 @@
   0%, 49% { opacity: 1; }
   50%, 100% { opacity: 0; }
 }
+@keyframes drift {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
 
 .animate-fade-up { animation: fade-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) both; }
 .animate-fade-in { animation: fade-in 1.2s ease-out both; }
 .animate-pulse-soft { animation: pulse-soft 2.4s ease-in-out infinite; }
 .animate-blink { animation: blink 1.1s step-end infinite; }
+.animate-drift { animation: drift 6s ease-in-out infinite; }

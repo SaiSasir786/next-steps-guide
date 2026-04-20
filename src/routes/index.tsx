@@ -10,6 +10,7 @@ import {
   Briefcase,
 } from "lucide-react";
 import { Section } from "@/components/Section";
+import { Starfield } from "@/components/Starfield";
 import projectChatbot from "@/assets/project-chatbot.jpg";
 import projectAutovista from "@/assets/project-autovista.jpg";
 import projectFire from "@/assets/firefighter.jpg";
@@ -120,26 +121,47 @@ function Home() {
   return (
     <>
       {/* ============ HERO ============ */}
-      <section className="relative min-h-[92vh] flex items-center pt-32 pb-20 overflow-hidden">
+      <section className="relative min-h-[94vh] flex items-center pt-32 pb-20 overflow-hidden cosmos-bg">
+        {/* Layered backdrop: stars → grid → ambient glow */}
+        <div className="absolute inset-0 [mask-image:radial-gradient(ellipse_80%_70%_at_50%_30%,black,transparent_85%)]">
+          <Starfield density={160} />
+        </div>
+        <div className="absolute inset-0 grid-hairline opacity-40 pointer-events-none [mask-image:radial-gradient(ellipse_70%_60%_at_50%_30%,black,transparent_75%)]" />
         <div className="absolute inset-0 ambient-top pointer-events-none" />
-        <div className="absolute inset-0 grid-hairline opacity-60 pointer-events-none [mask-image:radial-gradient(ellipse_70%_60%_at_50%_30%,black,transparent_75%)]" />
 
         <div className="relative max-w-6xl mx-auto px-6 lg:px-8 w-full">
+          {/* HUD strip — coordinates / role / status */}
+          <div
+            className="hidden md:flex items-center gap-5 mb-12 text-[10px] font-mono tracking-[0.2em] uppercase text-muted-foreground animate-fade-up"
+          >
+            <span className="flex items-center gap-2">
+              <span className="w-1 h-1 rounded-full bg-stellar" />
+              17.385° N · 78.486° E
+            </span>
+            <span className="h-px w-8 bg-border" />
+            <span>Gen-AI · ML Engineer</span>
+            <span className="h-px w-8 bg-border" />
+            <span className="flex items-center gap-2">
+              <span className="w-1 h-1 rounded-full bg-beacon animate-pulse-soft" />
+              Currently available
+            </span>
+          </div>
+
           <div className="grid lg:grid-cols-12 gap-10 items-end">
             <div className="lg:col-span-9">
               <div
-                className="inline-flex items-center gap-2.5 mb-10 animate-fade-up rounded-full border border-border bg-surface/40 backdrop-blur-sm pl-2 pr-4 py-1.5"
+                className="md:hidden inline-flex items-center gap-2.5 mb-8 animate-fade-up rounded-full border border-border bg-surface/40 backdrop-blur-sm pl-2 pr-4 py-1.5"
               >
                 <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-stellar/15">
                   <span className="w-1.5 h-1.5 rounded-full bg-stellar animate-pulse-soft" />
                 </span>
                 <span className="text-[12px] text-foreground/80">
-                  Available for Gen-AI &amp; ML Engineering roles
+                  Available for Gen-AI &amp; ML roles
                 </span>
               </div>
 
               <h1
-                className="font-serif font-normal text-[44px] sm:text-6xl md:text-7xl lg:text-[88px] leading-[1.02] tracking-[-0.025em] text-foreground animate-fade-up"
+                className="font-serif font-normal text-[44px] sm:text-6xl md:text-7xl lg:text-[92px] leading-[1.02] tracking-[-0.025em] text-foreground animate-fade-up"
                 style={{ animationDelay: "0.05s" }}
               >
                 Building intelligent

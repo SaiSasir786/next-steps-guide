@@ -1,10 +1,10 @@
 import { useEffect, useRef } from "react";
 
 /**
- * Animated starfield — slow parallax drift, like deep-space windows
- * on the Endurance / Hail Mary. Pure canvas, GPU-friendly.
+ * Slow parallax starfield — Endurance / Hail Mary observation-window vibe.
+ * Pure canvas, GPU-friendly, respects prefers-reduced-motion.
  */
-export function Starfield({ density = 180 }: { density?: number }) {
+export function Starfield({ density = 140 }: { density?: number }) {
   const ref = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -13,12 +13,14 @@ export function Starfield({ density = 180 }: { density?: number }) {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
     let raf = 0;
     let w = 0;
     let h = 0;
-    let dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
 
-    type Star = { x: number; y: number; z: number; r: number; tw: number };
+    type Star = { x: number; y: number; z: number; r: number; tw: number; warm: boolean };
     let stars: Star[] = [];
 
     const resize = () => {
@@ -31,8 +33,9 @@ export function Starfield({ density = 180 }: { density?: number }) {
         x: Math.random() * w,
         y: Math.random() * h,
         z: Math.random() * 0.7 + 0.3,
-        r: Math.random() * 1.2 + 0.2,
+        r: Math.random() * 1.1 + 0.2,
         tw: Math.random() * Math.PI * 2,
+        warm: Math.random() > 0.78,
       }));
     };
     resize();
@@ -45,25 +48,22 @@ export function Starfield({ density = 180 }: { density?: number }) {
       ctx.clearRect(0, 0, w, h);
 
       for (const s of stars) {
-        // gentle drift
-        s.y += dt * 4 * s.z;
-        s.x += dt * 1.5 * s.z;
-        s.tw += dt * 1.5;
-        if (s.y > h) s.y = 0;
-        if (s.x > w) s.x = 0;
-
-        const twinkle = 0.6 + Math.sin(s.tw) * 0.4;
-        const alpha = s.z * twinkle;
-        // warm-tinted stars (mix of amber and cool white)
-        const warm = s.r > 0.9;
-        ctx.fillStyle = warm
-          ? `rgba(255, 210, 140, ${alpha})`
+        if (!reduced) {
+          s.y += dt * 3 * s.z;
+          s.x += dt * 1.2 * s.z;
+          s.tw += dt * 1.4;
+          if (s.y > h) s.y = 0;
+          if (s.x > w) s.x = 0;
+        }
+        const twinkle = 0.55 + Math.sin(s.tw) * 0.45;
+        const alpha = s.z * twinkle * 0.85;
+        ctx.fillStyle = s.warm
+          ? `rgba(255, 215, 150, ${alpha})`
           : `rgba(220, 230, 255, ${alpha * 0.85})`;
         ctx.beginPath();
         ctx.arc(s.x, s.y, s.r * s.z, 0, Math.PI * 2);
         ctx.fill();
       }
-
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);

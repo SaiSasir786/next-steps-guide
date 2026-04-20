@@ -9,8 +9,21 @@ const nav = [
   { href: "/#contact", label: "Contact" },
 ];
 
+function useUTC() {
+  const [t, setT] = useState(() => new Date());
+  useEffect(() => {
+    const id = setInterval(() => setT(new Date()), 1000);
+    return () => clearInterval(id);
+  }, []);
+  const hh = String(t.getUTCHours()).padStart(2, "0");
+  const mm = String(t.getUTCMinutes()).padStart(2, "0");
+  const ss = String(t.getUTCSeconds()).padStart(2, "0");
+  return `${hh}:${mm}:${ss} UTC`;
+}
+
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
+  const utc = useUTC();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16);
@@ -29,10 +42,11 @@ export function SiteHeader() {
     >
       <div className="max-w-6xl mx-auto px-6 lg:px-8 h-16 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-3 group">
-          <div className="w-7 h-7 rounded-full bg-foreground flex items-center justify-center">
+          <div className="relative w-7 h-7 rounded-full bg-foreground flex items-center justify-center">
             <span className="font-mono font-semibold text-[10px] text-background tracking-tight">
               SK
             </span>
+            <span className="absolute -inset-1 rounded-full border border-stellar/30 opacity-0 group-hover:opacity-100 transition-opacity" />
           </div>
           <div className="flex items-baseline gap-2">
             <span className="font-medium tracking-tight text-sm text-foreground">
@@ -57,12 +71,16 @@ export function SiteHeader() {
         </nav>
 
         <div className="hidden md:flex items-center gap-3">
+          <span className="hidden lg:inline-flex items-center gap-2 text-[10px] font-mono tracking-[0.16em] text-muted-foreground">
+            <span className="w-1 h-1 rounded-full bg-beacon animate-pulse-soft" />
+            {utc}
+          </span>
           <a
             href="/#contact"
             className="inline-flex items-center gap-2 rounded-full bg-foreground text-background px-4 py-1.5 text-[12px] font-medium hover:bg-foreground/90 transition-colors"
           >
             <span className="w-1.5 h-1.5 rounded-full bg-stellar animate-pulse-soft" />
-            Available
+            Open to work
           </a>
         </div>
       </div>
