@@ -10,15 +10,21 @@ const nav = [
 ];
 
 function useUTC() {
-  const [t, setT] = useState(() => new Date());
+  // Start as null on both server and client to avoid hydration mismatch.
+  const [t, setT] = useState<string | null>(null);
   useEffect(() => {
-    const id = setInterval(() => setT(new Date()), 1000);
+    const fmt = () => {
+      const d = new Date();
+      const hh = String(d.getUTCHours()).padStart(2, "0");
+      const mm = String(d.getUTCMinutes()).padStart(2, "0");
+      const ss = String(d.getUTCSeconds()).padStart(2, "0");
+      return `${hh}:${mm}:${ss} UTC`;
+    };
+    setT(fmt());
+    const id = setInterval(() => setT(fmt()), 1000);
     return () => clearInterval(id);
   }, []);
-  const hh = String(t.getUTCHours()).padStart(2, "0");
-  const mm = String(t.getUTCMinutes()).padStart(2, "0");
-  const ss = String(t.getUTCSeconds()).padStart(2, "0");
-  return `${hh}:${mm}:${ss} UTC`;
+  return t;
 }
 
 export function SiteHeader() {
