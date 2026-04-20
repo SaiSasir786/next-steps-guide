@@ -121,6 +121,101 @@ const stack = [
   },
 ];
 
+/* ===== Hero supporting components (declared before Home so the route code-splitter keeps them in the same chunk) ===== */
+
+function PortraitFrame() {
+  return (
+    <div className="relative w-[260px] sm:w-[300px] lg:w-[340px] aspect-[4/5] animate-drift">
+      <div className="absolute -inset-6 bg-stellar/10 blur-3xl rounded-full" />
+
+      <span className="absolute -top-2 -left-2 w-5 h-5 border-t-2 border-l-2 border-stellar" />
+      <span className="absolute -top-2 -right-2 w-5 h-5 border-t-2 border-r-2 border-stellar" />
+      <span className="absolute -bottom-2 -left-2 w-5 h-5 border-b-2 border-l-2 border-stellar" />
+      <span className="absolute -bottom-2 -right-2 w-5 h-5 border-b-2 border-r-2 border-stellar" />
+
+      <div className="relative w-full h-full overflow-hidden rounded-lg border border-border-bright">
+        <img
+          src={portrait}
+          alt="Sai Sasir Kosuri"
+          width={680}
+          height={850}
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
+        <div className="absolute inset-x-0 bottom-3 h-px bg-gradient-to-r from-transparent via-beacon/60 to-transparent" />
+      </div>
+
+      <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-2 rounded-full bg-background border border-border-bright px-3 py-1.5 text-[10px] font-mono uppercase tracking-[0.2em] text-muted-foreground whitespace-nowrap">
+        <span className="w-1.5 h-1.5 rounded-full bg-stellar animate-pulse-soft" />
+        Hyderabad · IN
+      </div>
+    </div>
+  );
+}
+
+function SocialIcon({
+  href,
+  icon: Icon,
+  label,
+}: {
+  href: string;
+  icon: React.ComponentType<{ className?: string }>;
+  label: string;
+}) {
+  const external = href.startsWith("http");
+  return (
+    <a
+      href={href}
+      aria-label={label}
+      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      className="w-10 h-10 rounded-full border border-border bg-surface/30 backdrop-blur-sm flex items-center justify-center text-muted-foreground hover:text-stellar hover:border-stellar/40 transition-colors"
+    >
+      <Icon className="w-4 h-4" />
+    </a>
+  );
+}
+
+function BigStat({
+  value,
+  suffix = "",
+  label,
+  sub,
+  decimals = 0,
+}: {
+  value: number;
+  suffix?: string;
+  label: string;
+  sub?: string;
+  decimals?: number;
+}) {
+  return (
+    <div className="bg-background/60 p-6 lg:p-7 hover:bg-surface/40 transition-colors">
+      <div className="font-serif text-4xl lg:text-5xl text-foreground tracking-tight tabular-nums">
+        {decimals > 0 ? (
+          <>
+            <StatCounter value={Math.floor(value)} />
+            <span className="text-stellar">
+              .{Math.round((value - Math.floor(value)) * Math.pow(10, decimals))}
+            </span>
+            {suffix}
+          </>
+        ) : (
+          <StatCounter value={value} suffix={suffix} />
+        )}
+      </div>
+      <p className="mt-3 text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+        {label}
+      </p>
+      {sub && (
+        <p
+          className="mt-1.5 text-[12px] text-muted-foreground/80"
+          dangerouslySetInnerHTML={{ __html: sub }}
+        />
+      )}
+    </div>
+  );
+}
+
 function Home() {
   return (
     <>
@@ -554,97 +649,3 @@ function ContactLink({
   );
 }
 
-/* ===== Hero supporting components ===== */
-
-function PortraitFrame() {
-  return (
-    <div className="relative w-[260px] sm:w-[300px] lg:w-[340px] aspect-[4/5] animate-drift">
-      <div className="absolute -inset-6 bg-stellar/10 blur-3xl rounded-full" />
-
-      <span className="absolute -top-2 -left-2 w-5 h-5 border-t-2 border-l-2 border-stellar" />
-      <span className="absolute -top-2 -right-2 w-5 h-5 border-t-2 border-r-2 border-stellar" />
-      <span className="absolute -bottom-2 -left-2 w-5 h-5 border-b-2 border-l-2 border-stellar" />
-      <span className="absolute -bottom-2 -right-2 w-5 h-5 border-b-2 border-r-2 border-stellar" />
-
-      <div className="relative w-full h-full overflow-hidden rounded-lg border border-border-bright">
-        <img
-          src={portrait}
-          alt="Sai Sasir Kosuri"
-          width={680}
-          height={850}
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
-        <div className="absolute inset-x-0 bottom-3 h-px bg-gradient-to-r from-transparent via-beacon/60 to-transparent" />
-      </div>
-
-      <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-2 rounded-full bg-background border border-border-bright px-3 py-1.5 text-[10px] font-mono uppercase tracking-[0.2em] text-muted-foreground whitespace-nowrap">
-        <span className="w-1.5 h-1.5 rounded-full bg-stellar animate-pulse-soft" />
-        Hyderabad · IN
-      </div>
-    </div>
-  );
-}
-
-function SocialIcon({
-  href,
-  icon: Icon,
-  label,
-}: {
-  href: string;
-  icon: React.ComponentType<{ className?: string }>;
-  label: string;
-}) {
-  const external = href.startsWith("http");
-  return (
-    <a
-      href={href}
-      aria-label={label}
-      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-      className="w-10 h-10 rounded-full border border-border bg-surface/30 backdrop-blur-sm flex items-center justify-center text-muted-foreground hover:text-stellar hover:border-stellar/40 transition-colors"
-    >
-      <Icon className="w-4 h-4" />
-    </a>
-  );
-}
-
-function BigStat({
-  value,
-  suffix = "",
-  label,
-  sub,
-  decimals = 0,
-}: {
-  value: number;
-  suffix?: string;
-  label: string;
-  sub?: string;
-  decimals?: number;
-}) {
-  return (
-    <div className="bg-background/60 p-6 lg:p-7 hover:bg-surface/40 transition-colors">
-      <div className="font-serif text-4xl lg:text-5xl text-foreground tracking-tight tabular-nums">
-        {decimals > 0 ? (
-          <>
-            <StatCounter value={Math.floor(value)} />
-            <span className="text-stellar">
-              .{Math.round((value - Math.floor(value)) * Math.pow(10, decimals))}
-            </span>
-            {suffix}
-          </>
-        ) : (
-          <StatCounter value={value} suffix={suffix} />
-        )}
-      </div>
-      <p className="mt-3 text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
-        {label}
-      </p>
-      {sub && (
-        <p
-          className="mt-1.5 text-[12px] text-muted-foreground/80"
-          dangerouslySetInnerHTML={{ __html: sub }}
-        />
-      )}
-    </div>
-  );
-}
