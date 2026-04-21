@@ -243,131 +243,121 @@ function ContactLink({
 function Home() {
   return (
     <>
-      {/* ============ HERO — Vallabhaneni serif scale × Patil HUD portrait ============ */}
-      <section className="relative min-h-[100vh] flex items-center pt-28 pb-20 overflow-hidden cosmos-bg">
+      {/* ============ HERO — Vallabhaneni centered serif × Patil HUD signal × Dewan minimalism ============ */}
+      <section className="relative min-h-[100vh] flex flex-col justify-center pt-28 pb-20 overflow-hidden cosmos-bg">
         <div className="absolute inset-0 [mask-image:radial-gradient(ellipse_85%_75%_at_50%_30%,black,transparent_90%)]">
           <Starfield density={170} />
         </div>
-        <div className="absolute inset-0 grid-hairline opacity-30 pointer-events-none [mask-image:radial-gradient(ellipse_70%_60%_at_50%_30%,black,transparent_75%)]" />
+        <div className="absolute inset-0 grid-hairline opacity-[0.22] pointer-events-none [mask-image:radial-gradient(ellipse_70%_60%_at_50%_30%,black,transparent_75%)]" />
         <div className="absolute inset-0 ambient-top pointer-events-none" />
 
-        <div className="relative max-w-7xl mx-auto px-6 lg:px-10 w-full">
-          {/* Top mission strip — Patil's "SIGNAL" bar */}
-          <div className="flex items-center justify-between mb-12 lg:mb-16 animate-fade-up">
-            <div className="flex items-center gap-3 text-[10px] font-mono uppercase tracking-[0.28em] text-muted-foreground">
+        <div className="relative max-w-screen-2xl mx-auto px-6 lg:px-12 xl:px-16 w-full">
+          {/* ===== Patil-style top HUD strip ===== */}
+          <div className="flex items-center justify-between mb-14 lg:mb-20 animate-fade-up">
+            <div className="flex items-center gap-3 text-[10px] font-mono uppercase tracking-[0.3em] text-muted-foreground">
               <span className="w-1.5 h-1.5 rounded-full bg-stellar animate-pulse-soft" />
-              <span className="hidden sm:inline">Bengaluru, IND · 12.97°N</span>
+              <span className="hidden sm:inline">Bengaluru, IND · 12.97°N · 77.59°E</span>
               <span className="sm:hidden">IND · 12.97°N</span>
+            </div>
+            <div className="hidden md:flex items-center gap-6 text-[10px] font-mono uppercase tracking-[0.28em] text-muted-foreground">
+              <span>Portfolio · v3.0</span>
+              <span className="h-3 w-px bg-border" />
+              <span>2026 / Q1</span>
             </div>
             <div className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-beacon/30 bg-beacon/5 text-[10px] font-mono uppercase tracking-[0.22em] text-beacon">
               <Signal className="w-3 h-3" />
-              Signal · Available
+              <span className="hidden sm:inline">Signal · Available</span>
+              <span className="sm:hidden">Available</span>
             </div>
           </div>
 
-          <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-            {/* LEFT — name block (8 cols, Vallabhaneni-style massive serif) */}
-            <div className="lg:col-span-8 order-2 lg:order-1">
-              <div className="max-w-xl animate-fade-up" style={{ animationDelay: "0.2s" }}>
-                <BootSequence />
-              </div>
+          {/* ===== Centered name block — Vallabhaneni style ===== */}
+          <div className="text-center max-w-6xl mx-auto">
+            <p
+              className="text-[10px] md:text-[11px] font-mono uppercase tracking-[0.42em] text-muted-foreground animate-fade-up"
+              style={{ animationDelay: "0.3s" }}
+            >
+              Generative AI · ML Engineer
+            </p>
 
-              <p
-                className="mt-12 text-[10px] md:text-[11px] font-mono uppercase tracking-[0.4em] text-muted-foreground animate-fade-up"
-                style={{ animationDelay: "0.5s" }}
-              >
-                Generative AI · ML Engineer
-              </p>
-
-              <h1
-                className="mt-5 font-serif font-normal text-[56px] sm:text-7xl md:text-8xl lg:text-[108px] leading-[0.92] tracking-[-0.035em] text-foreground animate-fade-up"
-                style={{ animationDelay: "0.6s" }}
-              >
-                Sai Sasir
-                <br />
-                <em className="italic font-serif text-stellar">Kosuri</em>
-              </h1>
-
-              <div
-                className="flex items-center gap-4 mt-7 animate-fade-up"
-                style={{ animationDelay: "0.7s" }}
-              >
-                <span className="block w-[3px] h-7 bg-stellar" />
-                <span className="text-[11px] font-mono uppercase tracking-[0.28em] text-muted-foreground">
-                  Building AI systems that ship.
-                </span>
-              </div>
-
-              <p
-                className="mt-8 max-w-xl text-base md:text-lg text-muted-foreground leading-relaxed animate-fade-up"
-                style={{ animationDelay: "0.8s" }}
-              >
-                B.Tech AI &amp; Robotics · VIT (CGPA 8.20) — I design and deploy
-                production-grade LLMs, retrieval-augmented pipelines, and
-                autonomous agents. Looking for Gen-AI / ML Engineer roles.
-              </p>
-
-              {/* Skill chips */}
-              <div
-                className="mt-8 flex flex-wrap gap-2 animate-fade-up"
-                style={{ animationDelay: "0.9s" }}
-              >
-                {["LLMs & RAG", "AI Agents", "PyTorch · TensorFlow", "AWS · Docker"].map((s) => (
-                  <span
-                    key={s}
-                    className="text-[12px] px-3.5 py-1.5 rounded-full border border-border bg-surface/40 backdrop-blur-sm text-foreground/85"
-                  >
-                    {s}
-                  </span>
-                ))}
-              </div>
-
-              {/* CTAs */}
-              <div
-                className="mt-10 flex flex-wrap items-center gap-3 animate-fade-up"
-                style={{ animationDelay: "1s" }}
-              >
-                <a
-                  href="/resume.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group inline-flex items-center gap-2 rounded-full bg-stellar text-primary-foreground px-6 py-3 text-sm font-medium hover:bg-stellar/90 transition-colors"
-                >
-                  <Download className="w-4 h-4" />
-                  Download Resume
-                </a>
-                <a
-                  href="#work"
-                  className="group inline-flex items-center gap-2 rounded-full border border-border-bright bg-surface/40 backdrop-blur-sm px-6 py-3 text-sm font-medium text-foreground hover:bg-surface transition-colors"
-                >
-                  View selected work
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-                </a>
-                <div className="flex items-center gap-1.5 ml-1">
-                  <SocialIcon href="https://github.com/saisasir" icon={Github} label="GitHub" />
-                  <SocialIcon
-                    href="https://www.linkedin.com/in/saisasirkosuri/"
-                    icon={Linkedin}
-                    label="LinkedIn"
-                  />
-                  <SocialIcon href="mailto:saisasir99@gmail.com" icon={Mail} label="Email" />
-                </div>
-              </div>
-            </div>
-
-            {/* RIGHT — HUD portrait (4 cols, Patil-style) */}
-            <div
-              className="lg:col-span-4 order-1 lg:order-2 animate-fade-up"
+            <h1
+              className="mt-7 font-serif font-normal text-[64px] sm:text-8xl md:text-9xl lg:text-[148px] xl:text-[176px] leading-[0.9] tracking-[-0.04em] text-foreground animate-fade-up"
               style={{ animationDelay: "0.4s" }}
             >
-              <PortraitFrame />
+              Sai Sasir
+              <br />
+              <em className="italic font-serif text-stellar">Kosuri</em>
+            </h1>
+
+            {/* Single vertical accent bar — Vallabhaneni signature */}
+            <div
+              className="flex justify-center mt-8 animate-fade-up"
+              style={{ animationDelay: "0.55s" }}
+            >
+              <span className="block w-[3px] h-10 bg-stellar shadow-[0_0_18px_rgba(231,180,90,0.5)]" />
+            </div>
+
+            <p
+              className="mt-8 max-w-2xl mx-auto text-base md:text-lg text-muted-foreground leading-relaxed animate-fade-up"
+              style={{ animationDelay: "0.65s" }}
+            >
+              B.Tech AI &amp; Robotics · VIT (CGPA 8.20) — I design and deploy
+              production-grade LLMs, retrieval-augmented pipelines, and
+              autonomous agents.
+            </p>
+
+            {/* Vallabhaneni-style chips */}
+            <div
+              className="mt-9 flex flex-wrap justify-center gap-2 animate-fade-up"
+              style={{ animationDelay: "0.75s" }}
+            >
+              {["LLMs & RAG", "AI Agents", "PyTorch · TensorFlow", "AWS · Docker", "Fine-tuning"].map((s) => (
+                <span
+                  key={s}
+                  className="text-[12px] px-3.5 py-1.5 rounded-full border border-border bg-surface/40 backdrop-blur-sm text-foreground/85"
+                >
+                  {s}
+                </span>
+              ))}
+            </div>
+
+            {/* CTAs */}
+            <div
+              className="mt-11 flex flex-wrap justify-center items-center gap-3 animate-fade-up"
+              style={{ animationDelay: "0.85s" }}
+            >
+              <a
+                href="/resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-2 rounded-full bg-stellar text-primary-foreground px-6 py-3 text-sm font-medium hover:bg-stellar/90 transition-colors"
+              >
+                <Download className="w-4 h-4" />
+                Download Resume
+              </a>
+              <a
+                href="#work"
+                className="group inline-flex items-center gap-2 rounded-full border border-border-bright bg-surface/40 backdrop-blur-sm px-6 py-3 text-sm font-medium text-foreground hover:bg-surface transition-colors"
+              >
+                View selected work
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+              </a>
+              <div className="flex items-center gap-1.5 ml-1">
+                <SocialIcon href="https://github.com/saisasir" icon={Github} label="GitHub" />
+                <SocialIcon
+                  href="https://www.linkedin.com/in/saisasirkosuri/"
+                  icon={Linkedin}
+                  label="LinkedIn"
+                />
+                <SocialIcon href="mailto:saisasir99@gmail.com" icon={Mail} label="Email" />
+              </div>
             </div>
           </div>
 
-          {/* Stat counter rail */}
+          {/* ===== Bottom telemetry strip ===== */}
           <div
-            className="mt-20 lg:mt-24 grid grid-cols-2 md:grid-cols-4 gap-px bg-border rounded-2xl overflow-hidden border border-border bg-surface/30 backdrop-blur-sm animate-fade-up"
-            style={{ animationDelay: "1.1s" }}
+            className="mt-20 lg:mt-28 grid grid-cols-2 md:grid-cols-4 gap-px bg-border rounded-2xl overflow-hidden border border-border bg-surface/30 backdrop-blur-sm animate-fade-up"
+            style={{ animationDelay: "1s" }}
           >
             <BigStat value={3} suffix="+" label="Years building" sub="AI &amp; full-stack" />
             <BigStat value={10} suffix="+" label="Production projects" sub="Across AI, web, robotics" />
@@ -376,6 +366,7 @@ function Home() {
           </div>
         </div>
       </section>
+
 
       {/* ============ WORK ============ */}
       <Section
