@@ -3,6 +3,7 @@ import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/r
 import appCss from "../styles.css?url";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { SideNav } from "@/components/SideNav";
 
 function NotFoundComponent() {
   return (
@@ -86,7 +87,8 @@ function RootComponent() {
   return (
     <>
       <SiteHeader />
-      <main className="min-h-screen">
+      <SideNav />
+      <main className="min-h-screen lg:pl-12">
         <Outlet />
       </main>
       <SiteFooter />
