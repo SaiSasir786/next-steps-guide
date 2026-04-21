@@ -124,53 +124,6 @@ const corestack = [
 
 /* ===================== Hero supporting components ===================== */
 
-function PortraitFrame() {
-  return (
-    <div className="relative">
-      {/* HUD bracket frame */}
-      <div className="relative aspect-[4/5] max-w-sm mx-auto">
-        {/* Corner brackets */}
-        <span className="absolute -top-2 -left-2 w-6 h-6 border-t border-l border-beacon/70" />
-        <span className="absolute -top-2 -right-2 w-6 h-6 border-t border-r border-beacon/70" />
-        <span className="absolute -bottom-2 -left-2 w-6 h-6 border-b border-l border-beacon/70" />
-        <span className="absolute -bottom-2 -right-2 w-6 h-6 border-b border-r border-beacon/70" />
-
-        {/* Frame */}
-        <div className="relative w-full h-full overflow-hidden rounded-md border border-border bg-deep">
-          <img
-            src={portrait}
-            alt="Sai Sasir Kosuri"
-            className="w-full h-full object-cover opacity-95"
-          />
-          {/* Scan line */}
-          <div className="absolute inset-x-0 top-1/2 h-px bg-beacon/40 shadow-[0_0_12px_rgba(122,200,255,0.6)]" />
-          {/* Bottom gradient + label */}
-          <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-background via-background/80 to-transparent">
-            <div className="flex items-center justify-between text-[9px] font-mono uppercase tracking-[0.22em] text-beacon/80">
-              <span>SUBJECT-01 · KOSURI</span>
-              <span className="flex items-center gap-1.5">
-                <span className="w-1 h-1 rounded-full bg-stellar animate-pulse-soft" />
-                LIVE
-              </span>
-            </div>
-          </div>
-          {/* Cinematic gradient on top */}
-          <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-transparent to-stellar/5 pointer-events-none" />
-        </div>
-      </div>
-
-      {/* Status strip */}
-      <div className="mt-5 max-w-sm mx-auto rounded-md border border-border bg-surface/40 backdrop-blur-sm px-4 py-2.5 flex items-center justify-between text-[10px] font-mono uppercase tracking-[0.2em] text-muted-foreground">
-        <span className="flex items-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-stellar animate-pulse-soft" />
-          Available · Q1 2026
-        </span>
-        <span>VIT · IND</span>
-      </div>
-    </div>
-  );
-}
-
 function SocialIcon({
   href,
   icon: Icon,
