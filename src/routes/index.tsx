@@ -368,7 +368,7 @@ function Home() {
       </section>
 
 
-      {/* ============ WORK ============ */}
+      {/* ============ WORK — Vallabhaneni numbered list × Patil cinematic preview ============ */}
       <Section
         id="work"
         index="01 / 04"
@@ -376,52 +376,55 @@ function Home() {
         title="Recent projects across AI, full-stack, and robotics."
         description="A focused selection of systems I've designed and shipped end-to-end — from research prototype to production deployment."
       >
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+        <div className="border-t border-border">
           {projects.map((p) => (
             <Link
               key={p.slug}
               to="/projects/$slug"
               params={{ slug: p.slug }}
-              className="group relative rounded-xl border border-border bg-surface/40 hover:bg-surface hover:border-border-bright overflow-hidden lift"
+              className="group relative grid grid-cols-12 items-center gap-6 py-8 lg:py-10 border-b border-border hover:bg-surface/30 transition-colors px-2"
             >
-              <div className="aspect-[16/10] overflow-hidden bg-deep relative max-h-52">
-                <img
-                  src={p.image}
-                  alt={p.title}
-                  loading="lazy"
-                  className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-[1.02] transition-all duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-background/10 to-transparent" />
-                {/* HUD corner brackets */}
-                <span className="absolute top-3 left-3 w-3 h-3 border-t border-l border-beacon/60" />
-                <span className="absolute top-3 right-3 w-3 h-3 border-t border-r border-beacon/60" />
+              {/* Number */}
+              <div className="col-span-2 lg:col-span-1 font-mono text-[11px] text-stellar tabular-nums tracking-[0.18em]">
+                / {p.code}
               </div>
-              <div className="p-6 lg:p-7">
-                <div className="flex items-center justify-between mb-4 text-[11px] text-muted-foreground font-mono">
-                  <span className="flex items-center gap-2">
-                    <span className="text-stellar tabular-nums">/ {p.code}</span>
-                    {p.tag}
-                  </span>
-                  <span className="tabular-nums">{p.year}</span>
-                </div>
-                <div className="flex items-start justify-between gap-4 mb-3">
-                  <h3 className="text-lg lg:text-xl font-medium tracking-tight text-foreground group-hover:text-stellar transition-colors">
-                    {p.title}
-                  </h3>
-                  <ArrowUpRight className="w-5 h-5 text-muted-foreground group-hover:text-stellar group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all flex-shrink-0 mt-1" />
-                </div>
-                <p className="text-sm text-muted-foreground leading-relaxed mb-5">
-                  {p.desc}
+
+              {/* Title + tag */}
+              <div className="col-span-10 lg:col-span-5">
+                <h3 className="font-serif text-2xl md:text-3xl lg:text-4xl tracking-[-0.02em] text-foreground group-hover:text-stellar transition-colors leading-tight">
+                  {p.title}
+                </h3>
+                <p className="mt-2 text-[11px] font-mono uppercase tracking-[0.22em] text-muted-foreground">
+                  {p.tag} · {p.year}
                 </p>
-                <div className="flex flex-wrap gap-1.5">
-                  {p.stack.map((s) => (
-                    <span
-                      key={s}
-                      className="text-[11px] px-2 py-0.5 rounded-full border border-border text-muted-foreground"
-                    >
-                      {s}
-                    </span>
-                  ))}
+              </div>
+
+              {/* Stack */}
+              <div className="hidden lg:flex col-span-5 flex-wrap gap-1.5 justify-end">
+                {p.stack.slice(0, 4).map((s) => (
+                  <span
+                    key={s}
+                    className="text-[11px] px-2.5 py-1 rounded-full border border-border text-muted-foreground group-hover:border-stellar/40 group-hover:text-foreground transition-colors"
+                  >
+                    {s}
+                  </span>
+                ))}
+              </div>
+
+              {/* Arrow */}
+              <div className="col-span-12 lg:col-span-1 flex justify-end">
+                <ArrowUpRight className="w-6 h-6 text-muted-foreground group-hover:text-stellar group-hover:-translate-y-1 group-hover:translate-x-1 transition-all" />
+              </div>
+
+              {/* Patil-style cinematic hover preview — desktop only */}
+              <div className="hidden lg:block pointer-events-none absolute right-24 top-1/2 -translate-y-1/2 w-64 aspect-[16/10] opacity-0 group-hover:opacity-100 translate-x-4 group-hover:translate-x-0 transition-all duration-500 z-10">
+                <div className="relative w-full h-full rounded-md overflow-hidden border border-beacon/30 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.8)]">
+                  <img src={p.image} alt="" className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-tr from-background/40 via-transparent to-stellar/10" />
+                  <span className="absolute top-2 left-2 w-3 h-3 border-t border-l border-beacon/70" />
+                  <span className="absolute top-2 right-2 w-3 h-3 border-t border-r border-beacon/70" />
+                  <span className="absolute bottom-2 left-2 w-3 h-3 border-b border-l border-beacon/70" />
+                  <span className="absolute bottom-2 right-2 w-3 h-3 border-b border-r border-beacon/70" />
                 </div>
               </div>
             </Link>
