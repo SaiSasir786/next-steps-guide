@@ -9,12 +9,14 @@ import {
   Award,
   Briefcase,
   Download,
+  Signal,
 } from "lucide-react";
 import { Section } from "@/components/Section";
 import { Starfield } from "@/components/Starfield";
 import { BootSequence } from "@/components/BootSequence";
 import { StatCounter } from "@/components/StatCounter";
 
+import portrait from "@/assets/portrait.jpg";
 import projectChatbot from "@/assets/project-chatbot.jpg";
 import projectAutovista from "@/assets/project-autovista.jpg";
 import projectFire from "@/assets/firefighter.jpg";
@@ -94,34 +96,81 @@ const projects = [
   },
 ];
 
-const stack = [
+const corestack = [
   {
-    title: "Generative AI & LLMs",
-    items: ["Hugging Face", "LangChain", "LlamaIndex", "OpenAI", "Anthropic", "RAG", "LoRA / PEFT", "Fine-tuning"],
+    title: "ML & AI",
+    items: ["PyTorch", "TensorFlow", "Hugging Face", "LangChain", "RAG", "LoRA", "Scikit-learn", "XGBoost"],
   },
   {
-    title: "ML Frameworks",
-    items: ["PyTorch", "TensorFlow", "Scikit-learn", "XGBoost", "FAISS", "ONNX", "CUDA", "TensorRT"],
+    title: "Generative AI",
+    items: ["LLaMA", "GPT-4", "Claude", "LlamaIndex", "Fine-tuning", "Vector DBs", "FAISS", "Agents"],
   },
   {
-    title: "MLOps & Infrastructure",
-    items: ["MLflow", "Weights & Biases", "Docker", "Kubernetes", "AWS SageMaker", "Vertex AI", "FastAPI"],
-  },
-  {
-    title: "Languages",
-    items: ["Python", "C++", "Java", "TypeScript", "SQL", "Bash"],
+    title: "Infrastructure",
+    items: ["AWS", "Docker", "Kubernetes", "FastAPI", "MLflow", "W&B", "SageMaker", "Vertex AI"],
   },
   {
     title: "Robotics & Vision",
-    items: ["ROS", "OpenCV", "SLAM", "Arduino", "Raspberry Pi", "Sensor Fusion"],
+    items: ["ROS", "OpenCV", "SLAM", "Sensor Fusion", "CUDA", "TensorRT", "Arduino", "Raspberry Pi"],
   },
   {
-    title: "Web & Data",
-    items: ["React", "Node.js", "MongoDB", "PostgreSQL", "Apache Spark", "AWS", "Git"],
+    title: "Languages & Data",
+    items: ["Python", "C++", "TypeScript", "SQL", "PostgreSQL", "MongoDB", "Spark", "Bash"],
+  },
+  {
+    title: "Web & Product",
+    items: ["React", "Node.js", "Next.js", "Tailwind", "REST", "GraphQL", "Git", "CI/CD"],
   },
 ];
 
-/* ===== Hero supporting components (declared before Home so the route code-splitter keeps them in the same chunk) ===== */
+/* ===================== Hero supporting components ===================== */
+
+function PortraitFrame() {
+  return (
+    <div className="relative">
+      {/* HUD bracket frame */}
+      <div className="relative aspect-[4/5] max-w-sm mx-auto">
+        {/* Corner brackets */}
+        <span className="absolute -top-2 -left-2 w-6 h-6 border-t border-l border-beacon/70" />
+        <span className="absolute -top-2 -right-2 w-6 h-6 border-t border-r border-beacon/70" />
+        <span className="absolute -bottom-2 -left-2 w-6 h-6 border-b border-l border-beacon/70" />
+        <span className="absolute -bottom-2 -right-2 w-6 h-6 border-b border-r border-beacon/70" />
+
+        {/* Frame */}
+        <div className="relative w-full h-full overflow-hidden rounded-md border border-border bg-deep">
+          <img
+            src={portrait}
+            alt="Sai Sasir Kosuri"
+            className="w-full h-full object-cover opacity-95"
+          />
+          {/* Scan line */}
+          <div className="absolute inset-x-0 top-1/2 h-px bg-beacon/40 shadow-[0_0_12px_rgba(122,200,255,0.6)]" />
+          {/* Bottom gradient + label */}
+          <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-background via-background/80 to-transparent">
+            <div className="flex items-center justify-between text-[9px] font-mono uppercase tracking-[0.22em] text-beacon/80">
+              <span>SUBJECT-01 · KOSURI</span>
+              <span className="flex items-center gap-1.5">
+                <span className="w-1 h-1 rounded-full bg-stellar animate-pulse-soft" />
+                LIVE
+              </span>
+            </div>
+          </div>
+          {/* Cinematic gradient on top */}
+          <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-transparent to-stellar/5 pointer-events-none" />
+        </div>
+      </div>
+
+      {/* Status strip */}
+      <div className="mt-5 max-w-sm mx-auto rounded-md border border-border bg-surface/40 backdrop-blur-sm px-4 py-2.5 flex items-center justify-between text-[10px] font-mono uppercase tracking-[0.2em] text-muted-foreground">
+        <span className="flex items-center gap-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-stellar animate-pulse-soft" />
+          Available · Q1 2026
+        </span>
+        <span>VIT · IND</span>
+      </div>
+    </div>
+  );
+}
 
 function SocialIcon({
   href,
@@ -186,106 +235,187 @@ function BigStat({
   );
 }
 
+function DossierCard({
+  icon: Icon,
+  label,
+  children,
+}: {
+  icon: React.ComponentType<{ className?: string }>;
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="rounded-xl border border-border bg-surface/40 p-5 hover:bg-surface transition-colors">
+      <div className="flex items-center gap-2 mb-3 pb-3 border-b border-border">
+        <Icon className="w-3.5 h-3.5 text-stellar" />
+        <span className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+          {label}
+        </span>
+      </div>
+      {children}
+    </div>
+  );
+}
+
+function ContactLink({
+  href,
+  icon: Icon,
+  external,
+  primary,
+  children,
+}: {
+  href: string;
+  icon: React.ComponentType<{ className?: string }>;
+  external?: boolean;
+  primary?: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <a
+      href={href}
+      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      className={
+        primary
+          ? "group inline-flex items-center gap-2.5 rounded-full bg-foreground text-background px-5 py-3 text-sm font-medium hover:bg-foreground/90 transition-colors"
+          : "group inline-flex items-center gap-2.5 rounded-full border border-border-bright px-5 py-3 text-sm text-foreground hover:bg-surface transition-colors"
+      }
+    >
+      <Icon className="w-4 h-4" />
+      <span>{children}</span>
+    </a>
+  );
+}
+
+/* ===================== Page ===================== */
+
 function Home() {
   return (
     <>
-      {/* ============ HERO ============ */}
-      <section className="relative min-h-[100vh] flex items-center pt-28 pb-16 overflow-hidden cosmos-bg">
-        {/* Layered backdrop: stars → grid → ambient glow */}
+      {/* ============ HERO — Vallabhaneni serif scale × Patil HUD portrait ============ */}
+      <section className="relative min-h-[100vh] flex items-center pt-28 pb-20 overflow-hidden cosmos-bg">
         <div className="absolute inset-0 [mask-image:radial-gradient(ellipse_85%_75%_at_50%_30%,black,transparent_90%)]">
           <Starfield density={170} />
         </div>
         <div className="absolute inset-0 grid-hairline opacity-30 pointer-events-none [mask-image:radial-gradient(ellipse_70%_60%_at_50%_30%,black,transparent_75%)]" />
         <div className="absolute inset-0 ambient-top pointer-events-none" />
 
-        <div className="relative max-w-6xl mx-auto px-6 lg:px-8 w-full">
-          {/* Terminal boot intro */}
-          <div className="max-w-2xl mx-auto animate-fade-up">
-            <BootSequence />
+        <div className="relative max-w-7xl mx-auto px-6 lg:px-10 w-full">
+          {/* Top mission strip — Patil's "SIGNAL" bar */}
+          <div className="flex items-center justify-between mb-12 lg:mb-16 animate-fade-up">
+            <div className="flex items-center gap-3 text-[10px] font-mono uppercase tracking-[0.28em] text-muted-foreground">
+              <span className="w-1.5 h-1.5 rounded-full bg-stellar animate-pulse-soft" />
+              <span className="hidden sm:inline">Bengaluru, IND · 12.97°N</span>
+              <span className="sm:hidden">IND · 12.97°N</span>
+            </div>
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-beacon/30 bg-beacon/5 text-[10px] font-mono uppercase tracking-[0.22em] text-beacon">
+              <Signal className="w-3 h-3" />
+              Signal · Available
+            </div>
           </div>
 
-          {/* Centerpiece: name + role */}
-          <div className="mt-16 lg:mt-20 text-center">
-            <p
-              className="text-[10px] md:text-[11px] font-mono uppercase tracking-[0.4em] text-muted-foreground mb-6 animate-fade-up"
-              style={{ animationDelay: "0.4s" }}
-            >
-              Generative AI · ML Engineer
-            </p>
+          <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            {/* LEFT — name block (8 cols, Vallabhaneni-style massive serif) */}
+            <div className="lg:col-span-8 order-2 lg:order-1">
+              <div className="max-w-xl animate-fade-up" style={{ animationDelay: "0.2s" }}>
+                <BootSequence />
+              </div>
 
-            <h1
-              className="font-serif font-normal text-[52px] sm:text-7xl md:text-8xl lg:text-[112px] leading-[0.98] tracking-[-0.03em] text-foreground animate-fade-up"
-              style={{ animationDelay: "0.5s" }}
-            >
-              Sai Sasir{" "}
-              <em className="italic font-serif text-stellar">Kosuri</em>
-            </h1>
+              <p
+                className="mt-12 text-[10px] md:text-[11px] font-mono uppercase tracking-[0.4em] text-muted-foreground animate-fade-up"
+                style={{ animationDelay: "0.5s" }}
+              >
+                Generative AI · ML Engineer
+              </p>
 
-            <div className="flex justify-center mt-7 animate-fade-up" style={{ animationDelay: "0.6s" }}>
-              <span className="block w-12 h-[2px] bg-stellar" />
-            </div>
+              <h1
+                className="mt-5 font-serif font-normal text-[56px] sm:text-7xl md:text-8xl lg:text-[108px] leading-[0.92] tracking-[-0.035em] text-foreground animate-fade-up"
+                style={{ animationDelay: "0.6s" }}
+              >
+                Sai Sasir
+                <br />
+                <em className="italic font-serif text-stellar">Kosuri</em>
+              </h1>
 
-            <p
-              className="mt-8 max-w-2xl mx-auto text-base md:text-lg text-muted-foreground leading-relaxed animate-fade-up"
-              style={{ animationDelay: "0.7s" }}
-            >
-              B.Tech AI &amp; Robotics · VIT (CGPA 8.20) — I design and ship
-              production AI systems: large language models, retrieval-augmented
-              pipelines, and autonomous agents.
-            </p>
-
-            {/* Skill chips — Vallabhaneni-style */}
-            <div
-              className="mt-9 flex flex-wrap justify-center gap-2 animate-fade-up"
-              style={{ animationDelay: "0.8s" }}
-            >
-              {["LLMs & RAG", "AI Agents", "PyTorch · TensorFlow", "AWS · Docker"].map((s) => (
-                <span
-                  key={s}
-                  className="text-[12px] px-3.5 py-1.5 rounded-full border border-border bg-surface/40 backdrop-blur-sm text-foreground/85"
-                >
-                  {s}
+              <div
+                className="flex items-center gap-4 mt-7 animate-fade-up"
+                style={{ animationDelay: "0.7s" }}
+              >
+                <span className="block w-[3px] h-7 bg-stellar" />
+                <span className="text-[11px] font-mono uppercase tracking-[0.28em] text-muted-foreground">
+                  Building AI systems that ship.
                 </span>
-              ))}
-            </div>
+              </div>
 
-            {/* CTAs */}
-            <div
-              className="mt-12 flex flex-wrap justify-center items-center gap-3 animate-fade-up"
-              style={{ animationDelay: "0.9s" }}
-            >
-              <a
-                href="/resume.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group inline-flex items-center gap-2 rounded-full bg-stellar text-primary-foreground px-6 py-3 text-sm font-medium hover:bg-stellar/90 transition-colors"
+              <p
+                className="mt-8 max-w-xl text-base md:text-lg text-muted-foreground leading-relaxed animate-fade-up"
+                style={{ animationDelay: "0.8s" }}
               >
-                <Download className="w-4 h-4" />
-                Download Resume
-              </a>
-              <a
-                href="#work"
-                className="group inline-flex items-center gap-2 rounded-full border border-border-bright bg-surface/40 backdrop-blur-sm px-6 py-3 text-sm font-medium text-foreground hover:bg-surface transition-colors"
+                B.Tech AI &amp; Robotics · VIT (CGPA 8.20) — I design and deploy
+                production-grade LLMs, retrieval-augmented pipelines, and
+                autonomous agents. Looking for Gen-AI / ML Engineer roles.
+              </p>
+
+              {/* Skill chips */}
+              <div
+                className="mt-8 flex flex-wrap gap-2 animate-fade-up"
+                style={{ animationDelay: "0.9s" }}
               >
-                View selected work
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-              </a>
-              <div className="flex items-center gap-1.5 ml-1">
-                <SocialIcon href="https://github.com/saisasir" icon={Github} label="GitHub" />
-                <SocialIcon
-                  href="https://www.linkedin.com/in/saisasirkosuri/"
-                  icon={Linkedin}
-                  label="LinkedIn"
-                />
-                <SocialIcon href="mailto:saisasir99@gmail.com" icon={Mail} label="Email" />
+                {["LLMs & RAG", "AI Agents", "PyTorch · TensorFlow", "AWS · Docker"].map((s) => (
+                  <span
+                    key={s}
+                    className="text-[12px] px-3.5 py-1.5 rounded-full border border-border bg-surface/40 backdrop-blur-sm text-foreground/85"
+                  >
+                    {s}
+                  </span>
+                ))}
+              </div>
+
+              {/* CTAs */}
+              <div
+                className="mt-10 flex flex-wrap items-center gap-3 animate-fade-up"
+                style={{ animationDelay: "1s" }}
+              >
+                <a
+                  href="/resume.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group inline-flex items-center gap-2 rounded-full bg-stellar text-primary-foreground px-6 py-3 text-sm font-medium hover:bg-stellar/90 transition-colors"
+                >
+                  <Download className="w-4 h-4" />
+                  Download Resume
+                </a>
+                <a
+                  href="#work"
+                  className="group inline-flex items-center gap-2 rounded-full border border-border-bright bg-surface/40 backdrop-blur-sm px-6 py-3 text-sm font-medium text-foreground hover:bg-surface transition-colors"
+                >
+                  View selected work
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                </a>
+                <div className="flex items-center gap-1.5 ml-1">
+                  <SocialIcon href="https://github.com/saisasir" icon={Github} label="GitHub" />
+                  <SocialIcon
+                    href="https://www.linkedin.com/in/saisasirkosuri/"
+                    icon={Linkedin}
+                    label="LinkedIn"
+                  />
+                  <SocialIcon href="mailto:saisasir99@gmail.com" icon={Mail} label="Email" />
+                </div>
               </div>
             </div>
+
+            {/* RIGHT — HUD portrait (4 cols, Patil-style) */}
+            <div
+              className="lg:col-span-4 order-1 lg:order-2 animate-fade-up"
+              style={{ animationDelay: "0.4s" }}
+            >
+              <PortraitFrame />
+            </div>
           </div>
 
-          {/* Stat counter rail — Aman Garg pattern */}
+          {/* Stat counter rail */}
           <div
-            className="mt-20 lg:mt-28 grid grid-cols-2 md:grid-cols-4 gap-px bg-border rounded-2xl overflow-hidden border border-border bg-surface/30 backdrop-blur-sm animate-fade-up"
-            style={{ animationDelay: "1s" }}
+            className="mt-20 lg:mt-24 grid grid-cols-2 md:grid-cols-4 gap-px bg-border rounded-2xl overflow-hidden border border-border bg-surface/30 backdrop-blur-sm animate-fade-up"
+            style={{ animationDelay: "1.1s" }}
           >
             <BigStat value={3} suffix="+" label="Years building" sub="AI &amp; full-stack" />
             <BigStat value={10} suffix="+" label="Production projects" sub="Across AI, web, robotics" />
@@ -301,7 +431,7 @@ function Home() {
         index="01 / 04"
         eyebrow="Selected Work"
         title="Recent projects across AI, full-stack, and robotics."
-        description="A focused selection of systems I’ve designed and shipped end-to-end — from research prototype to production deployment."
+        description="A focused selection of systems I've designed and shipped end-to-end — from research prototype to production deployment."
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
           {projects.map((p) => (
@@ -319,10 +449,16 @@ function Home() {
                   className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-[1.02] transition-all duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-background/10 to-transparent" />
+                {/* HUD corner brackets */}
+                <span className="absolute top-3 left-3 w-3 h-3 border-t border-l border-beacon/60" />
+                <span className="absolute top-3 right-3 w-3 h-3 border-t border-r border-beacon/60" />
               </div>
               <div className="p-6 lg:p-7">
                 <div className="flex items-center justify-between mb-4 text-[11px] text-muted-foreground font-mono">
-                  <span>{p.tag}</span>
+                  <span className="flex items-center gap-2">
+                    <span className="text-stellar tabular-nums">/ {p.code}</span>
+                    {p.tag}
+                  </span>
                   <span className="tabular-nums">{p.year}</span>
                 </div>
                 <div className="flex items-start justify-between gap-4 mb-3">
@@ -391,28 +527,32 @@ function Home() {
         </div>
       </Section>
 
-      {/* ============ STACK ============ */}
+      {/* ============ CORESTACK — Patil-style grouped grid ============ */}
       <Section
         id="stack"
         index="03 / 04"
-        eyebrow="Tools"
+        eyebrow="Corestack"
         title="Technical stack."
         description="The frameworks, platforms, and languages I use to take AI systems from notebook to production."
       >
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-border rounded-xl overflow-hidden border border-border">
-          {stack.map((cat) => (
+          {corestack.map((cat) => (
             <div
               key={cat.title}
-              className="bg-background p-7 lg:p-8 hover:bg-surface/40 transition-colors"
+              className="bg-background p-7 lg:p-8 hover:bg-surface/40 transition-colors relative"
             >
-              <h4 className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground mb-5">
+              <div className="absolute top-7 right-7 text-[9px] font-mono uppercase tracking-[0.22em] text-stellar/70">
+                CORE
+              </div>
+              <h4 className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground mb-5 flex items-center gap-2">
+                <span className="w-1 h-1 rounded-full bg-stellar" />
                 {cat.title}
               </h4>
               <div className="flex flex-wrap gap-1.5">
                 {cat.items.map((item) => (
                   <span
                     key={item}
-                    className="text-xs px-2.5 py-1 rounded-md bg-surface border border-border text-foreground/85"
+                    className="text-xs px-2.5 py-1 rounded-md bg-surface border border-border text-foreground/85 hover:border-stellar/40 hover:text-stellar transition-colors"
                   >
                     {item}
                   </span>
@@ -433,12 +573,12 @@ function Home() {
         <div className="grid lg:grid-cols-12 gap-10">
           <div className="lg:col-span-8 space-y-6">
             <p className="text-lg md:text-xl text-foreground leading-relaxed font-serif italic">
-              “The most impactful AI isn’t built in isolation — it comes from
+              "The most impactful AI isn't built in isolation — it comes from
               rigorous engineering, cross-functional collaboration, and a
-              relentless focus on real-world outcomes.”
+              relentless focus on real-world outcomes."
             </p>
             <p className="text-base text-muted-foreground leading-relaxed">
-              I’m a Generative AI &amp; ML Engineer specializing in large
+              I'm a Generative AI &amp; ML Engineer specializing in large
               language models, generative AI, and intelligent automation. I
               architect and deploy AI solutions that bridge research and
               production reliability — with a focus on{" "}
@@ -500,13 +640,13 @@ function Home() {
                 Contact · 05
               </p>
               <h2 className="font-serif text-4xl md:text-6xl lg:text-7xl leading-[1.02] tracking-[-0.025em] text-foreground">
-                Let’s build something
+                Let's build something
                 <br />
                 <em className="italic text-stellar">together.</em>
               </h2>
               <p className="mt-6 text-base md:text-lg text-muted-foreground max-w-xl leading-relaxed">
                 LLM-powered products, ML infrastructure, or experimental
-                agents — I’d love to hear about what you’re working on.
+                agents — I'd love to hear about what you're working on.
               </p>
 
               <div className="mt-12 flex flex-wrap items-center gap-3">
@@ -531,82 +671,3 @@ function Home() {
     </>
   );
 }
-
-function Stat({
-  label,
-  value,
-  sub,
-}: {
-  label: string;
-  value: string;
-  sub?: string;
-}) {
-  return (
-    <div>
-      <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground mb-2">
-        {label}
-      </p>
-      <p className="text-xl font-medium text-foreground tracking-tight">
-        {value}
-      </p>
-      {sub && (
-        <p
-          className="text-[11px] text-muted-foreground mt-1"
-          dangerouslySetInnerHTML={{ __html: sub }}
-        />
-      )}
-    </div>
-  );
-}
-
-function DossierCard({
-  icon: Icon,
-  label,
-  children,
-}: {
-  icon: React.ComponentType<{ className?: string }>;
-  label: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="rounded-xl border border-border bg-surface/40 p-5 hover:bg-surface transition-colors">
-      <div className="flex items-center gap-2 mb-3 pb-3 border-b border-border">
-        <Icon className="w-3.5 h-3.5 text-stellar" />
-        <span className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
-          {label}
-        </span>
-      </div>
-      {children}
-    </div>
-  );
-}
-
-function ContactLink({
-  href,
-  icon: Icon,
-  external,
-  primary,
-  children,
-}: {
-  href: string;
-  icon: React.ComponentType<{ className?: string }>;
-  external?: boolean;
-  primary?: boolean;
-  children: React.ReactNode;
-}) {
-  return (
-    <a
-      href={href}
-      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-      className={
-        primary
-          ? "group inline-flex items-center gap-2.5 rounded-full bg-foreground text-background px-5 py-3 text-sm font-medium hover:bg-foreground/90 transition-colors"
-          : "group inline-flex items-center gap-2.5 rounded-full border border-border-bright px-5 py-3 text-sm text-foreground hover:bg-surface transition-colors"
-      }
-    >
-      <Icon className="w-4 h-4" />
-      <span>{children}</span>
-    </a>
-  );
-}
-
