@@ -4,6 +4,7 @@ import appCss from "../styles.css?url";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SideNav } from "@/components/SideNav";
+import { Cursor } from "@/components/Cursor";
 
 function NotFoundComponent() {
   return (
