@@ -1,19 +1,22 @@
 import { useEffect, useRef, useState } from "react";
 
 /**
- * Portfolio cursor — minimal stellar dot + trailing ring.
- * - Dot: small filled disc, tracks mouse 1:1
- * - Ring: larger outlined circle that eases behind for momentum
- * - Hover: ring expands on interactive elements
- * - Press: dot scales down, ring contracts
- * Uses mix-blend-mode: difference so it stays visible in light & dark themes.
+ * Premium portfolio cursor.
+ * - Inner dot tracks the mouse 1:1
+ * - Outer thin ring eases behind for smooth momentum
+ * - On interactive elements: ring expands and softly fills
+ * - On press: dot punches in, ring contracts
+ * - Subtle glow trail follows the dot for a luxe stellar feel
  */
 export function Cursor() {
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
+  const glowRef = useRef<HTMLDivElement>(null);
+  const labelRef = useRef<HTMLDivElement>(null);
   const [enabled, setEnabled] = useState(false);
   const [pressed, setPressed] = useState(false);
-  const [hovering, setHovering] = useState(false);
+  const [hoverKind, setHoverKind] = useState<"none" | "link" | "text" | "media">("none");
+  const [label, setLabel] = useState<string>("");
 
   useEffect(() => {
     const isFine = window.matchMedia("(pointer: fine)").matches;
@@ -24,38 +27,64 @@ export function Cursor() {
     let my = window.innerHeight / 2;
     let rx = mx;
     let ry = my;
+    let gx = mx;
+    let gy = my;
     let raf = 0;
 
     const onMove = (e: MouseEvent) => {
       mx = e.clientX;
       my = e.clientY;
       const el = e.target as HTMLElement | null;
-      const interactive = !!el?.closest(
-        'a, button, [role="button"], input, textarea, select, label, summary, [data-cursor-hover]'
-      );
-      setHovering(interactive);
+      const interactive = el?.closest(
+        'a, button, [role="button"], input, textarea, select, label, summary, [data-cursor-hover], [data-cursor]'
+      ) as HTMLElement | null;
+
+      if (!interactive) {
+        setHoverKind("none");
+        setLabel("");
+        return;
+      }
+
+      const explicit = interactive.getAttribute("data-cursor");
+      if (explicit === "media" || interactive.tagName === "IMG" || interactive.tagName === "VIDEO") {
+        setHoverKind("media");
+      } else if (interactive.tagName === "INPUT" || interactive.tagName === "TEXTAREA") {
+        setHoverKind("text");
+      } else {
+        setHoverKind("link");
+      }
+      const lbl = interactive.getAttribute("data-cursor-label") || "";
+      setLabel(lbl);
     };
     const onDown = () => setPressed(true);
     const onUp = () => setPressed(false);
     const onLeave = () => {
-      if (dotRef.current) dotRef.current.style.opacity = "0";
-      if (ringRef.current) ringRef.current.style.opacity = "0";
+      [dotRef, ringRef, glowRef].forEach((r) => {
+        if (r.current) r.current.style.opacity = "0";
+      });
     };
     const onEnter = () => {
-      if (dotRef.current) dotRef.current.style.opacity = "1";
-      if (ringRef.current) ringRef.current.style.opacity = "1";
+      [dotRef, ringRef, glowRef].forEach((r) => {
+        if (r.current) r.current.style.opacity = "1";
+      });
     };
 
     const tick = () => {
-      // Dot: 1:1
       if (dotRef.current) {
         dotRef.current.style.transform = `translate3d(${mx}px, ${my}px, 0) translate(-50%, -50%)`;
       }
-      // Ring: eased trailing
-      rx += (mx - rx) * 0.18;
-      ry += (my - ry) * 0.18;
+      rx += (mx - rx) * 0.2;
+      ry += (my - ry) * 0.2;
       if (ringRef.current) {
         ringRef.current.style.transform = `translate3d(${rx}px, ${ry}px, 0) translate(-50%, -50%)`;
+      }
+      if (labelRef.current) {
+        labelRef.current.style.transform = `translate3d(${rx}px, ${ry}px, 0) translate(-50%, -50%)`;
+      }
+      gx += (mx - gx) * 0.08;
+      gy += (my - gy) * 0.08;
+      if (glowRef.current) {
+        glowRef.current.style.transform = `translate3d(${gx}px, ${gy}px, 0) translate(-50%, -50%)`;
       }
       raf = requestAnimationFrame(tick);
     };
@@ -79,68 +108,92 @@ export function Cursor() {
 
   if (!enabled) return null;
 
-  const dotScale = pressed ? 0.6 : hovering ? 0.4 : 1;
-  const ringScale = pressed ? 0.85 : hovering ? 1.8 : 1;
+  const hovering = hoverKind !== "none";
+  const dotScale = pressed ? 0.5 : hovering ? 0 : 1;
+  const ringScale = pressed ? 0.8 : hoverKind === "link" ? 2.2 : hoverKind === "media" ? 3 : hoverKind === "text" ? 0.6 : 1;
+  const ringFill = hovering ? 0.12 : 0;
+  const ringBorder = hoverKind === "text" ? 1 : 1.25;
 
   return (
     <>
+      {/* Soft glow trail */}
+      <div
+        ref={glowRef}
+        aria-hidden
+        className="pointer-events-none fixed left-0 top-0 z-[9997] hidden md:block"
+        style={{
+          width: 120,
+          height: 120,
+          borderRadius: "9999px",
+          background:
+            "radial-gradient(circle, hsl(var(--primary) / 0.18) 0%, hsl(var(--primary) / 0.05) 40%, transparent 70%)",
+          filter: "blur(6px)",
+          transition: "opacity 0.3s ease",
+          willChange: "transform",
+        }}
+      />
+
       {/* Trailing ring */}
       <div
         ref={ringRef}
         aria-hidden
         className="pointer-events-none fixed left-0 top-0 z-[9998] hidden md:block"
         style={{
-          width: 36,
-          height: 36,
+          width: 38,
+          height: 38,
           borderRadius: "9999px",
-          border: "1.5px solid hsl(var(--primary, 45 90% 60%))",
+          border: `${ringBorder}px solid hsl(var(--primary))`,
+          background: `hsl(var(--primary) / ${ringFill})`,
+          backdropFilter: hoverKind === "media" ? "blur(2px)" : "none",
           mixBlendMode: "difference",
-          transition: "opacity 0.2s ease",
+          transform: `scale(${ringScale})`,
+          transition:
+            "transform 0.28s cubic-bezier(0.22,1,0.36,1), background 0.25s ease, border-width 0.2s ease, opacity 0.2s ease",
           willChange: "transform",
         }}
-      >
-        <div
-          style={{
-            width: "100%",
-            height: "100%",
-            borderRadius: "9999px",
-            transform: `scale(${ringScale})`,
-            transition: "transform 0.25s cubic-bezier(0.22,1,0.36,1)",
-            border: "1px solid currentColor",
-            color: "hsl(var(--primary, 45 90% 60%))",
-            opacity: 0.85,
-          }}
-        />
-      </div>
+      />
 
-      {/* Center dot */}
+      {/* Hover label (e.g. "View", "Open") */}
+      {label ? (
+        <div
+          ref={labelRef}
+          aria-hidden
+          className="pointer-events-none fixed left-0 top-0 z-[9999] hidden md:block"
+          style={{
+            color: "hsl(var(--primary-foreground))",
+            background: "hsl(var(--primary))",
+            fontSize: 10,
+            fontWeight: 600,
+            letterSpacing: "0.08em",
+            textTransform: "uppercase",
+            padding: "4px 8px",
+            borderRadius: 9999,
+            transform: "translate(40px, -40px)",
+            whiteSpace: "nowrap",
+            boxShadow: "0 4px 12px hsl(var(--primary) / 0.35)",
+          }}
+        >
+          {label}
+        </div>
+      ) : null}
+
+      {/* Center dot — tracks 1:1 */}
       <div
         ref={dotRef}
         aria-hidden
         className="pointer-events-none fixed left-0 top-0 z-[9999] hidden md:block"
         style={{
-          width: 8,
-          height: 8,
+          width: 6,
+          height: 6,
           borderRadius: "9999px",
-          background: "hsl(var(--primary, 45 90% 60%))",
+          background: "hsl(var(--primary))",
           mixBlendMode: "difference",
-          transition: "opacity 0.2s ease",
+          transform: `scale(${dotScale})`,
+          transition: "transform 0.2s cubic-bezier(0.22,1,0.36,1), opacity 0.2s ease",
+          boxShadow: "0 0 14px hsl(var(--primary) / 0.7)",
           willChange: "transform",
-          boxShadow: "0 0 12px hsl(var(--primary, 45 90% 60%) / 0.6)",
         }}
-      >
-        <div
-          style={{
-            width: "100%",
-            height: "100%",
-            borderRadius: "9999px",
-            background: "currentColor",
-            color: "hsl(var(--primary, 45 90% 60%))",
-            transform: `scale(${dotScale})`,
-            transition: "transform 0.2s cubic-bezier(0.22,1,0.36,1)",
-          }}
-        />
-      </div>
+      />
     </>
   );
 }
