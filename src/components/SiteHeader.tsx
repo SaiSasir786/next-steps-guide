@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const nav = [
   { href: "/#work", label: "Work" },
@@ -84,6 +85,7 @@ export function SiteHeader() {
             <span className="w-1 h-1 rounded-full bg-beacon animate-pulse-soft" />
             {utc ?? "--:--:-- UTC"}
           </span>
+          <ThemeToggle />
           <a
             href="/resume.pdf"
             target="_blank"
