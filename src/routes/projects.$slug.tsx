@@ -1,13 +1,19 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ArrowLeft, ArrowUpRight, ExternalLink, Github } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, ExternalLink, Github, Play } from "lucide-react";
 import projectChatbot from "@/assets/project-chatbot.jpg";
 import projectAutovista from "@/assets/project-autovista.jpg";
 import projectFire from "@/assets/firefighter.jpg";
 import projectRov from "@/assets/rov.jpg";
 
+type Media =
+  | { type: "image"; src: string; alt?: string; caption?: string; aspect?: string }
+  | { type: "gif"; src: string; alt?: string; caption?: string; aspect?: string }
+  | { type: "youtube"; id: string; title?: string; caption?: string };
+
 type Section = {
   heading: string;
   body: string;
+  media?: Media[]; // optional media displayed under this section
 };
 
 type Project = {
@@ -17,14 +23,16 @@ type Project = {
   tag: string;
   year: string;
   summary: string;
-  image: string;
+  image: string; // hero
   stack: string[];
-  role: string;
-  duration: string;
+  role: string; // kept in data for reference, not rendered
+  duration: string; // kept in data for reference, not rendered
   overview: string;
+  overviewMedia?: Media[]; // media right under overview
+  gallery?: Media[]; // end-of-page gallery
   sections: Section[];
   highlights: string[];
-  links?: { label: string; href: string; icon?: "github" | "external" }[];
+  links?: { label: string; href: string; icon?: "github" | "external" | "youtube" }[];
 };
 
 const PROJECTS: Record<string, Project> = {
@@ -241,6 +249,63 @@ export const Route = createFileRoute("/projects/$slug")({
   component: ProjectPage,
 });
 
+function MediaBlock({ media }: { media: Media }) {
+  if (media.type === "youtube") {
+    return (
+      <figure className="rounded-xl border border-border bg-deep overflow-hidden">
+        <div className="relative aspect-video">
+          <iframe
+            src={`https://www.youtube.com/embed/${media.id}`}
+            title={media.title ?? "YouTube video"}
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="absolute inset-0 w-full h-full"
+          />
+        </div>
+        {media.caption && (
+          <figcaption className="px-4 py-2.5 text-xs text-muted-foreground border-t border-border">
+            {media.caption}
+          </figcaption>
+        )}
+      </figure>
+    );
+  }
+
+  return (
+    <figure className="rounded-xl border border-border bg-deep overflow-hidden">
+      <div className={`overflow-hidden ${media.aspect ?? "aspect-[16/9]"}`}>
+        <img
+          src={media.src}
+          alt={media.alt ?? ""}
+          loading="lazy"
+          className="w-full h-full object-cover opacity-95"
+        />
+      </div>
+      {media.caption && (
+        <figcaption className="px-4 py-2.5 text-xs text-muted-foreground border-t border-border">
+          {media.caption}
+        </figcaption>
+      )}
+    </figure>
+  );
+}
+
+function MediaGrid({ items }: { items: Media[] }) {
+  if (!items.length) return null;
+  return (
+    <div
+      className={`mt-6 grid gap-4 ${
+        items.length === 1 ? "grid-cols-1" : "sm:grid-cols-2"
+      }`}
+    >
+      {items.map((m, i) => (
+        <MediaBlock key={i} media={m} />
+      ))}
+    </div>
+  );
+}
+
 function ProjectPage() {
   const { project } = Route.useLoaderData() as { project: Project };
 
@@ -271,13 +336,6 @@ function ProjectPage() {
           {project.summary}
         </p>
 
-        {/* Meta strip */}
-        <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 gap-px bg-border rounded-xl overflow-hidden border border-border max-w-2xl">
-          <MetaCell label="Role" value={project.role} />
-          <MetaCell label="Duration" value={project.duration} />
-          <MetaCell label="Year" value={project.year} />
-        </div>
-
         {project.links && (
           <div className="flex flex-wrap gap-3 mt-8">
             {project.links.map((l) => (
@@ -290,6 +348,8 @@ function ProjectPage() {
               >
                 {l.icon === "github" ? (
                   <Github className="w-4 h-4" />
+                ) : l.icon === "youtube" ? (
+                  <Play className="w-4 h-4" />
                 ) : (
                   <ExternalLink className="w-4 h-4" />
                 )}
@@ -299,7 +359,7 @@ function ProjectPage() {
           </div>
         )}
 
-        {/* Hero image — capped, refined frame */}
+        {/* Hero image */}
         <div className="mt-14 rounded-xl border border-border bg-deep overflow-hidden">
           <div className="aspect-[16/9] overflow-hidden">
             <img
@@ -319,6 +379,7 @@ function ProjectPage() {
               <p className="text-foreground/90 leading-relaxed text-base md:text-lg">
                 {project.overview}
               </p>
+              {project.overviewMedia && <MediaGrid items={project.overviewMedia} />}
             </div>
 
             {project.sections.map((s) => (
@@ -329,6 +390,7 @@ function ProjectPage() {
                 <p className="text-muted-foreground leading-relaxed text-base">
                   {s.body}
                 </p>
+                {s.media && <MediaGrid items={s.media} />}
               </div>
             ))}
 
@@ -347,6 +409,15 @@ function ProjectPage() {
                 ))}
               </ul>
             </div>
+
+            {project.gallery && project.gallery.length > 0 && (
+              <div>
+                <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground mb-5">
+                  Gallery
+                </p>
+                <MediaGrid items={project.gallery} />
+              </div>
+            )}
           </div>
 
           <aside className="space-y-4">
@@ -387,17 +458,3 @@ function ProjectPage() {
     </article>
   );
 }
-
-function MetaCell({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="bg-background p-4">
-      <div className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground mb-1.5">
-        {label}
-      </div>
-      <div className="text-[13px] text-foreground/90 leading-snug">
-        {value}
-      </div>
-    </div>
-  );
-}
-
