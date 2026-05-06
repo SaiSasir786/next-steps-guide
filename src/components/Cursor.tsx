@@ -109,9 +109,9 @@ export function Cursor() {
   if (!enabled) return null;
 
   const hovering = hoverKind !== "none";
-  const dotScale = pressed ? 0.5 : hovering ? 0 : 1;
-  const ringScale = pressed ? 0.8 : hoverKind === "link" ? 2.2 : hoverKind === "media" ? 3 : hoverKind === "text" ? 0.6 : 1;
-  const ringFill = hovering ? 0.12 : 0;
+  const dotScale = pressed ? 0.5 : hoverKind === "text" ? 0 : 1;
+  const ringScale = pressed ? 0.85 : hoverKind === "link" ? 1.7 : hoverKind === "media" ? 1.9 : hoverKind === "text" ? 0.5 : 1;
+  const ringFill = hovering ? 0.1 : 0;
   const ringBorder = hoverKind === "text" ? 1 : 1.25;
 
   return (
@@ -153,24 +153,25 @@ export function Cursor() {
         }}
       />
 
-      {/* Hover label (e.g. "View", "Open") */}
+      {/* Hover label (only when explicitly set via data-cursor-label) */}
       {label ? (
         <div
           ref={labelRef}
           aria-hidden
           className="pointer-events-none fixed left-0 top-0 z-[9999] hidden md:block"
           style={{
-            color: "hsl(var(--primary-foreground))",
-            background: "hsl(var(--primary))",
+            color: "var(--primary-foreground)",
+            background: "var(--primary)",
             fontSize: 10,
             fontWeight: 600,
             letterSpacing: "0.08em",
             textTransform: "uppercase",
             padding: "4px 8px",
             borderRadius: 9999,
-            transform: "translate(40px, -40px)",
+            marginLeft: 24,
+            marginTop: 16,
             whiteSpace: "nowrap",
-            boxShadow: "0 4px 12px hsl(var(--primary) / 0.35)",
+            boxShadow: "0 4px 12px color-mix(in oklch, var(--primary) 35%, transparent)",
           }}
         >
           {label}
