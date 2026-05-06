@@ -126,7 +126,7 @@ export function Cursor() {
           height: 120,
           borderRadius: "9999px",
           background:
-            "radial-gradient(circle, hsl(var(--primary) / 0.18) 0%, hsl(var(--primary) / 0.05) 40%, transparent 70%)",
+            "radial-gradient(circle, color-mix(in oklch, var(--primary) 22%, transparent) 0%, color-mix(in oklch, var(--primary) 6%, transparent) 40%, transparent 70%)",
           filter: "blur(6px)",
           transition: "opacity 0.3s ease",
           willChange: "transform",
@@ -142,10 +142,10 @@ export function Cursor() {
           width: 38,
           height: 38,
           borderRadius: "9999px",
-          border: `${ringBorder}px solid hsl(var(--primary))`,
-          background: `hsl(var(--primary) / ${ringFill})`,
+          border: `${ringBorder}px solid var(--primary)`,
+          background: `color-mix(in oklch, var(--primary) ${ringFill * 100}%, transparent)`,
           backdropFilter: hoverKind === "media" ? "blur(2px)" : "none",
-          mixBlendMode: "difference",
+          boxShadow: "0 0 18px color-mix(in oklch, var(--primary) 35%, transparent)",
           transform: `scale(${ringScale})`,
           transition:
             "transform 0.28s cubic-bezier(0.22,1,0.36,1), background 0.25s ease, border-width 0.2s ease, opacity 0.2s ease",
@@ -186,11 +186,10 @@ export function Cursor() {
           width: 6,
           height: 6,
           borderRadius: "9999px",
-          background: "hsl(var(--primary))",
-          mixBlendMode: "difference",
+          background: "var(--primary)",
           transform: `scale(${dotScale})`,
           transition: "transform 0.2s cubic-bezier(0.22,1,0.36,1), opacity 0.2s ease",
-          boxShadow: "0 0 14px hsl(var(--primary) / 0.7)",
+          boxShadow: "0 0 14px color-mix(in oklch, var(--primary) 70%, transparent), 0 0 4px var(--background)",
           willChange: "transform",
         }}
       />
