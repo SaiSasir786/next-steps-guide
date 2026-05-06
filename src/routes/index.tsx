@@ -399,12 +399,12 @@ function Home() {
                 </p>
               </div>
 
-              {/* Stack */}
-              <div className="hidden lg:flex col-span-5 flex-wrap gap-1.5 justify-end">
+              {/* Stack — fades out on hover so the preview image is unobstructed */}
+              <div className="hidden lg:flex col-span-5 flex-wrap gap-1.5 justify-end transition-opacity duration-300 group-hover:opacity-0">
                 {p.stack.slice(0, 4).map((s) => (
                   <span
                     key={s}
-                    className="text-[11px] px-2.5 py-1 rounded-full border border-border text-muted-foreground group-hover:border-stellar/40 group-hover:text-foreground transition-colors"
+                    className="text-[11px] px-2.5 py-1 rounded-full border border-border text-muted-foreground transition-colors"
                   >
                     {s}
                   </span>
