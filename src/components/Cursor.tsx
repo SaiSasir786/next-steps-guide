@@ -49,7 +49,7 @@ export function Cursor() {
       my = e.clientY;
       const el = e.target as HTMLElement | null;
       const interactive = el?.closest(
-        'a, button, [role="button"], input, textarea, select, label, summary, [data-cursor-hover], [data-cursor]'
+        'a, button, [role="button"], input, textarea, select, label, summary, [data-cursor-hover], [data-cursor]',
       ) as HTMLElement | null;
 
       if (!interactive) {
@@ -59,7 +59,11 @@ export function Cursor() {
 
       const explicit = interactive.getAttribute("data-cursor");
       let nextKind: "link" | "text" | "media" = "link";
-      if (explicit === "media" || interactive.tagName === "IMG" || interactive.tagName === "VIDEO") {
+      if (
+        explicit === "media" ||
+        interactive.tagName === "IMG" ||
+        interactive.tagName === "VIDEO"
+      ) {
         nextKind = "media";
       } else if (interactive.tagName === "INPUT" || interactive.tagName === "TEXTAREA") {
         nextKind = "text";
@@ -121,7 +125,15 @@ export function Cursor() {
 
   const hovering = hoverKind !== "none";
   const dotScale = pressed ? 0.5 : hoverKind === "text" ? 0 : 1;
-  const ringScale = pressed ? 0.85 : hoverKind === "link" ? 1.7 : hoverKind === "media" ? 1.9 : hoverKind === "text" ? 0.5 : 1;
+  const ringScale = pressed
+    ? 0.85
+    : hoverKind === "link"
+      ? 1.7
+      : hoverKind === "media"
+        ? 1.9
+        : hoverKind === "text"
+          ? 0.5
+          : 1;
   const ringFill = hovering ? 0.1 : 0;
   const ringBorder = hoverKind === "text" ? 1 : 1.25;
 
@@ -205,7 +217,8 @@ export function Cursor() {
           transform: "translate(-50%, -50%)",
           scale: dotScale,
           transition: "scale 0.2s cubic-bezier(0.22,1,0.36,1), opacity 0.2s ease",
-          boxShadow: "0 0 14px color-mix(in oklch, var(--primary) 70%, transparent), 0 0 4px var(--background)",
+          boxShadow:
+            "0 0 14px color-mix(in oklch, var(--primary) 70%, transparent), 0 0 4px var(--background)",
           willChange: "translate, scale",
         }}
       />
