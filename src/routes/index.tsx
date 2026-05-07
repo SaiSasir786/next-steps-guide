@@ -281,20 +281,19 @@ function Home() {
             </p>
 
             <h1
-              className="mt-7 font-serif font-normal text-[64px] sm:text-8xl md:text-9xl lg:text-[148px] xl:text-[176px] leading-[0.9] tracking-[-0.04em] text-foreground animate-fade-up"
-              style={{ animationDelay: "0.4s" }}
+              className="mt-7 font-serif font-light text-[56px] sm:text-7xl md:text-8xl lg:text-[128px] xl:text-[152px] leading-[0.95] tracking-[-0.035em] text-foreground animate-fade-up"
+              style={{ animationDelay: "0.4s", fontVariationSettings: "'opsz' 144" }}
             >
-              Sai Sasir
-              <br />
-              <em className="italic font-serif text-stellar">Kosuri</em>
+              Sai Sasir{" "}
+              <em className="italic font-serif font-normal text-stellar" style={{ fontVariationSettings: "'opsz' 144" }}>Kosuri</em>
             </h1>
 
-            {/* Single vertical accent bar — Vallabhaneni signature */}
+            {/* Single vertical accent bar */}
             <div
               className="flex justify-center mt-8 animate-fade-up"
               style={{ animationDelay: "0.55s" }}
             >
-              <span className="block w-[3px] h-10 bg-stellar shadow-[0_0_18px_rgba(231,180,90,0.5)]" />
+              <span className="block w-[2px] h-10 bg-stellar shadow-[0_0_18px_rgba(231,180,90,0.5)]" />
             </div>
 
             <p
