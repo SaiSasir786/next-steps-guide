@@ -13,6 +13,8 @@ export function Cursor() {
   const ringRef = useRef<HTMLDivElement>(null);
   const glowRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLDivElement>(null);
+  const hoverKindRef = useRef<"none" | "link" | "text" | "media">("none");
+  const labelValueRef = useRef("");
   const [enabled, setEnabled] = useState(false);
   const [pressed, setPressed] = useState(false);
   const [hoverKind, setHoverKind] = useState<"none" | "link" | "text" | "media">("none");
@@ -31,6 +33,17 @@ export function Cursor() {
     let gy = my;
     let raf = 0;
 
+    const updateHover = (nextKind: "none" | "link" | "text" | "media", nextLabel = "") => {
+      if (hoverKindRef.current !== nextKind) {
+        hoverKindRef.current = nextKind;
+        setHoverKind(nextKind);
+      }
+      if (labelValueRef.current !== nextLabel) {
+        labelValueRef.current = nextLabel;
+        setLabel(nextLabel);
+      }
+    };
+
     const onMove = (e: MouseEvent) => {
       mx = e.clientX;
       my = e.clientY;
@@ -40,21 +53,19 @@ export function Cursor() {
       ) as HTMLElement | null;
 
       if (!interactive) {
-        setHoverKind("none");
-        setLabel("");
+        updateHover("none");
         return;
       }
 
       const explicit = interactive.getAttribute("data-cursor");
+      let nextKind: "link" | "text" | "media" = "link";
       if (explicit === "media" || interactive.tagName === "IMG" || interactive.tagName === "VIDEO") {
-        setHoverKind("media");
+        nextKind = "media";
       } else if (interactive.tagName === "INPUT" || interactive.tagName === "TEXTAREA") {
-        setHoverKind("text");
-      } else {
-        setHoverKind("link");
+        nextKind = "text";
       }
       const lbl = interactive.getAttribute("data-cursor-label") || "";
-      setLabel(lbl);
+      updateHover(nextKind, lbl);
     };
     const onDown = () => setPressed(true);
     const onUp = () => setPressed(false);
@@ -71,20 +82,20 @@ export function Cursor() {
 
     const tick = () => {
       if (dotRef.current) {
-        dotRef.current.style.transform = `translate3d(${mx}px, ${my}px, 0) translate(-50%, -50%)`;
+        dotRef.current.style.translate = `${mx}px ${my}px`;
       }
       rx += (mx - rx) * 0.2;
       ry += (my - ry) * 0.2;
       if (ringRef.current) {
-        ringRef.current.style.transform = `translate3d(${rx}px, ${ry}px, 0) translate(-50%, -50%)`;
+        ringRef.current.style.translate = `${rx}px ${ry}px`;
       }
       if (labelRef.current) {
-        labelRef.current.style.transform = `translate3d(${rx}px, ${ry}px, 0) translate(-50%, -50%)`;
+        labelRef.current.style.translate = `${rx}px ${ry}px`;
       }
       gx += (mx - gx) * 0.08;
       gy += (my - gy) * 0.08;
       if (glowRef.current) {
-        glowRef.current.style.transform = `translate3d(${gx}px, ${gy}px, 0) translate(-50%, -50%)`;
+        glowRef.current.style.translate = `${gx}px ${gy}px`;
       }
       raf = requestAnimationFrame(tick);
     };
@@ -128,8 +139,9 @@ export function Cursor() {
           background:
             "radial-gradient(circle, color-mix(in oklch, var(--primary) 22%, transparent) 0%, color-mix(in oklch, var(--primary) 6%, transparent) 40%, transparent 70%)",
           filter: "blur(6px)",
+          transform: "translate(-50%, -50%)",
           transition: "opacity 0.3s ease",
-          willChange: "transform",
+          willChange: "translate",
         }}
       />
 
@@ -146,10 +158,11 @@ export function Cursor() {
           background: `color-mix(in oklch, var(--primary) ${ringFill * 100}%, transparent)`,
           backdropFilter: hoverKind === "media" ? "blur(2px)" : "none",
           boxShadow: "0 0 18px color-mix(in oklch, var(--primary) 35%, transparent)",
-          transform: `scale(${ringScale})`,
+          transform: "translate(-50%, -50%)",
+          scale: ringScale,
           transition:
-            "transform 0.28s cubic-bezier(0.22,1,0.36,1), background 0.25s ease, border-width 0.2s ease, opacity 0.2s ease",
-          willChange: "transform",
+            "scale 0.28s cubic-bezier(0.22,1,0.36,1), background 0.25s ease, border-width 0.2s ease, opacity 0.2s ease",
+          willChange: "translate, scale",
         }}
       />
 
@@ -168,6 +181,7 @@ export function Cursor() {
             textTransform: "uppercase",
             padding: "4px 8px",
             borderRadius: 9999,
+            transform: "translate(-50%, -50%)",
             marginLeft: 24,
             marginTop: 16,
             whiteSpace: "nowrap",
@@ -188,10 +202,11 @@ export function Cursor() {
           height: 6,
           borderRadius: "9999px",
           background: "var(--primary)",
-          transform: `scale(${dotScale})`,
-          transition: "transform 0.2s cubic-bezier(0.22,1,0.36,1), opacity 0.2s ease",
+          transform: "translate(-50%, -50%)",
+          scale: dotScale,
+          transition: "scale 0.2s cubic-bezier(0.22,1,0.36,1), opacity 0.2s ease",
           boxShadow: "0 0 14px color-mix(in oklch, var(--primary) 70%, transparent), 0 0 4px var(--background)",
-          willChange: "transform",
+          willChange: "translate, scale",
         }}
       />
     </>
